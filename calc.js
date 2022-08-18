@@ -25,6 +25,8 @@ calc.buttons.forEach(button => {
   
   button.addEventListener('click', () => {
     
+    calc.focusEndOf(result);
+    
     if (button.type == 'literal') {
       
       calc.result.textContent += button.title;
@@ -34,4 +36,13 @@ calc.buttons.forEach(button => {
   });
     
 });
+
+
+calc.focusEndOf = (el) => {
+  
+  let range = el.createTextRange();
+  range.collapse(false);
+  range.select();
+  
+}
 
