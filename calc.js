@@ -41,7 +41,11 @@ calc.buttons.forEach(button => {
 calc.focusEndOf = (el) => {
 
   const selection = window.getSelection();
-  selection.setBaseAndExtent(el, el.textContent.length);
-  
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  selection.removeAllRanges();
+  selection.addRange(range);
+  selection.collapseToEnd();
+
 }
 
