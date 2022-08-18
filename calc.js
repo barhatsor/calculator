@@ -5,7 +5,7 @@ let calc = {
   buttons: {}
 };
 
-calc.buttons = calc.el.querySelectorAll('.buttons');
+calc.buttons = calc.el.querySelectorAll('.button');
 
 calc.buttons.forEach(button => {
     
@@ -13,12 +13,12 @@ calc.buttons.forEach(button => {
       button.classList.contains('text')) {
     
     button.type = 'literal';
-    button.name = button.textContent;
+    button.title = button.textContent;
     
   } else {
     
     button.type = 'function';
-    button.name = button.classList.value.replace('button', '');
+    button.title = button.classList.value.replace('button', '');
     
   }
   
@@ -27,7 +27,7 @@ calc.buttons.forEach(button => {
     
     if (button.type == 'literal') {
       
-      result.textContent += button.name;
+      result.textContent += button.title;
       
     }
     
