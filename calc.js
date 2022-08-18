@@ -13,12 +13,12 @@ calc.buttons.forEach(button => {
       button.classList.contains('text')) {
     
     button.type = 'literal';
-    button.title = button.textContent;
+    button.name = button.textContent;
     
   } else {
     
     button.type = 'function';
-    button.title = button.classList.value.replace('button', '');
+    button.name = button.classList.value.replace('button', '');
     
   }
   
@@ -27,7 +27,7 @@ calc.buttons.forEach(button => {
     
     if (button.type == 'literal') {
       
-      result.textContent += button.title;
+      result.textContent += button.name;
       
     }
     
