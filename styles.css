@@ -68,6 +68,17 @@
   border-radius: 9px;
 }
 
+.calc .buttons .button:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.calc .buttons .button:active {
+  background: rgba(255,255,255,0.1);
+}
+
+
+
+
 html,
 body {
   background: #1a1c24;
