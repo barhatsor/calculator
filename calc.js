@@ -18,7 +18,7 @@ calc.buttons.forEach(button => {
   } else {
     
     button.type = 'function';
-    button.title = button.classList.replace('button', '');
+    button.title = button.classList.value.replace('button', '');
     
   }
   
