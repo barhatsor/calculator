@@ -29,6 +29,14 @@ calc.buttons.forEach(button => {
       
       calc.result.textContent += button.title;
       
+    } else {
+      
+      if (button.title === 'clear') {
+        
+        calc.result.textContent = '';
+        
+      }
+      
     }
     
     calc.focusEndOf(calc.result);
