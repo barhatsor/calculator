@@ -27,7 +27,7 @@ calc.buttons.forEach(button => {
     
     if (button.type == 'literal') {
       
-      result.textContent += button.title;
+      calc.result.textContent += button.title;
       
     }
     
