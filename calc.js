@@ -39,12 +39,10 @@ calc.buttons.forEach(button => {
 
 
 calc.focusEndOf = (el) => {
-  
-  el.focus();
-  
-  let range = el.createTextRange();
-  range.collapse(false);
+
+  const range = document.body.createTextRange();
+  range.moveToElementText(node);
   range.select();
-  
+
 }
 
