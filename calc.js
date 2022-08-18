@@ -31,7 +31,7 @@ calc.buttons.forEach(button => {
       
     }
     
-    calc.focusEndOf(result);
+    calc.focusEndOf(calc.result);
     
   });
     
