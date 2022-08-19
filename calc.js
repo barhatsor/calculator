@@ -17,7 +17,7 @@ let calc = {
     pow: ['⁰','¹','²','³','⁴','⁵','⁶','⁷','⁸','⁹']
   },
   
-  words: ['NaN', 'hyp', 'sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh']
+  words: ['hyp', 'sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh']
   
 };
 
@@ -169,35 +169,27 @@ document.addEventListener('keydown', (e) => {
     }
     
     
-    let wordBefore = result.beforeSel(3);
-    
-    if (words.includes(wordBefore) ||
-        words.includes(wordBefore + '(')) {
+    if (result.beforeSel(3) === 'NaN') {
       
       result.removeText(-2);
       
-      if (words.includes(wordBefore + '(')) {
-        
-        result.removeText(-3);
-        
-      }
-      
     } else {
-    
-      wordBefore = result.beforeSel(4);
       
-      if (words.includes(wordBefore) ||
-          words.includes(wordBefore + '(')) {
+      let wordBefore = result.beforeSel(4);
+      
+      if (words.includes(wordBefore + '(')) {
+      
+        result.removeText(-4);
         
-        result.removeText(-3);
-        
+      } else {
+      
+        wordBefore = result.beforeSel(5);
+      
         if (words.includes(wordBefore + '(')) {
-        
-          result.removeText(-4);
-          
+      
+          result.removeText(-5);
+      
         }
-        
-      }
       
     }
     
