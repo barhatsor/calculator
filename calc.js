@@ -142,6 +142,11 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault();
     result.addText(symbols.divide);
     
+  } else if (e.key === '(') {
+    
+    result.addText(')');
+    result.moveSel(-1);
+    
   }
   
 });
