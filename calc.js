@@ -84,6 +84,21 @@ calc.buttons.forEach(button => {
 });
 
 
+calc.result.addEventListener('keydown', (e) => {
+  
+  if (e.key === 'Backspace' || e.keyCode === 8) {
+  
+    if (result.beforeSel(3) === 'NaN') {
+      
+      result.removeText(-2);
+  
+    }
+    
+  }
+  
+});
+
+
 calc.result.getSel = () => {
 
   const selection = window.getSelection();
