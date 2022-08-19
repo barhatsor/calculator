@@ -24,16 +24,22 @@ calc.buttons.forEach(button => {
   
   
   button.addEventListener('click', () => {
-        
+    
+    const result = calc.result;
+    
     if (button.type == 'literal') {
       
-      calc.result.textContent += button.title;
+      result.textContent += button.title;
       
     } else {
       
       if (button.title === 'clear') {
         
-        calc.result.textContent = '';
+        result.textContent = '';
+        
+      } else if (button.title === 'backspace') {
+        
+        result.textContent = result.textContent.slice(-1);
         
       }
       
