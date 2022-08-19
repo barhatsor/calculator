@@ -83,32 +83,33 @@ calc.buttons.forEach(button => {
       } else if (button.title === 'backspace') {
         
         if (result.beforeSel(1) === '(' &&
-            result.afterSel(1) === ')') {
+          result.afterSel(1) === ')') {
           
-          result.removeText(1);
-          
+          result.moveSel(1);
+          result.removeText(-1);
+            
         }
         
         
         if (result.beforeSel(3) === 'NaN') {
-      
+          
           result.removeText(-2);
           
         } else {
           
-          let wordBefore = result.beforeSel(4).slice(0, -1);
+          let wordBefore = result.beforeSel(3);
           
           if (words.includes(wordBefore)) {
           
-            result.removeText(-3);
+            result.removeText(-2);
             
           } else {
           
-            wordBefore = result.beforeSel(5).slice(0, -1);
+            wordBefore = result.beforeSel(4);
           
             if (words.includes(wordBefore)) {
           
-              result.removeText(-4);
+              result.removeText(-3);
           
             }
             
@@ -206,7 +207,8 @@ document.addEventListener('keydown', (e) => {
       if (result.beforeSel(1) === '(' &&
           result.afterSel(1) === ')') {
           
-        result.removeText(1);
+        result.moveSel(1);
+        result.removeText(-1);
           
       }
       
@@ -217,19 +219,19 @@ document.addEventListener('keydown', (e) => {
         
       } else {
         
-        let wordBefore = result.beforeSel(4).slice(0, -1);
+        let wordBefore = result.beforeSel(3);
         
         if (words.includes(wordBefore)) {
         
-          result.removeText(-3);
+          result.removeText(-2);
           
         } else {
         
-          wordBefore = result.beforeSel(5).slice(0, -1);
+          wordBefore = result.beforeSel(4);
         
           if (words.includes(wordBefore)) {
         
-            result.removeText(-4);
+            result.removeText(-3);
         
           }
           
