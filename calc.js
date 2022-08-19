@@ -26,6 +26,7 @@ calc.buttons.forEach(button => {
   button.addEventListener('click', () => {
     
     const result = calc.result;
+    result.focus();
     
     if (button.type == 'literal') {
       
@@ -36,11 +37,16 @@ calc.buttons.forEach(button => {
       if (button.title === 'clear') {
         
         result.textContent = '';
-        result.focus();
         
       } else if (button.title === 'backspace') {
         
-        result.removeText(1);
+        if (result.afterSel(1) === ')') {
+          
+          result.removeText(1);
+          
+        }
+        
+        result.removeText(-1);
         
       } else if (button.title === 'brackets') {
         
@@ -50,7 +56,7 @@ calc.buttons.forEach(button => {
       }
       
     }
-    
+        
   });
     
 });
@@ -90,6 +96,35 @@ calc.result.moveSelToEnd = () => {
 }
 
 
+calc.result.beforeSel = (startIndex = 0) => {
+  
+  const pos = calc.result.getSel();
+  
+  const resultText = calc.result.textContent;
+  
+  return resultText.slice(startIndex, pos);
+    
+}
+
+calc.result.afterSel = (endIndex = null) => {
+  
+  const pos = calc.result.getSel();
+  
+  const resultText = calc.result.textContent;
+  
+  if (endIndex) {
+  
+    return resultText.slice(pos, endIndex);
+    
+  } else {
+    
+    return resultText.slice(pos);
+    
+  }
+    
+}
+
+
 calc.result.focused = () => {
   
   return document.activeElement === calc.result;
@@ -98,28 +133,24 @@ calc.result.focused = () => {
 
 
 calc.result.addText = (text) => {
-    
-  if (!calc.result.focused()) calc.result.focus();
   
+  const result = calc.result;
   const pos = calc.result.getSel();
   
-  const resultText = calc.result.textContent;
-  
-  calc.result.textContent = resultText.slice(0, pos) + text + resultText.slice(pos);
+  const text = result.beforeSel() + text + result.afterSel();
+  calc.result.textContent = text;
   
   calc.result.setSel(pos + text.length);
   
 }
 
-calc.result.removeText = (charsToRemove = 1) => {
-
-  if (!calc.result.focused()) calc.result.focus();
+calc.result.removeText = (charsToRemove = -1) => {
 
   const pos = calc.result.getSel();
   
   if (pos === 0) return;
   
-  calc.result.setSel(pos, pos - charsToRemove);
+  calc.result.setSel(pos, pos + charsToRemove);
   
   const selection = window.getSelection();
   const range = selection.getRangeAt(0);
