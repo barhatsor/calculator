@@ -42,6 +42,12 @@
   /* font-family: 'Mono Sans'; */
 }
 
+.calc .header .number:empty::before {
+  content: ' ';
+  pointer-events: none;
+  opacity: 0;
+}
+
 .calc .buttons {
   display: flex;
   flex-flow: column;
