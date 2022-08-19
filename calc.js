@@ -60,13 +60,14 @@ calc.buttons.forEach(button => {
         if (!isNaN(resultNum)) {
         
           result.textContent = resultNum / 100;
-          result.moveSelToEnd();
           
         } else {
           
           result.innerHTML = '<span class="NaN">NaN</span>';
           
         }
+        
+        result.moveSelToEnd();
         
       }
       
