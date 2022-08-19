@@ -176,7 +176,7 @@ document.addEventListener('paste', (e) => {
   let text = e.clipboardData.getData('text');
   text = text.replaceAll('\n','').replaceAll('\r','');
 
-  calc.result.textContent = text;
+  calc.result.addText(text);
 
 });
 
