@@ -179,6 +179,12 @@ document.addEventListener('keydown', (e) => {
     result.removeText(-3);
     result.addText(symbols.root);
     
+  } else if (result.beforeSel(1) === 'r' && e.key === 't') {
+    
+    e.preventDefault();
+    result.removeText(-1);
+    result.addText(symbols.root);
+    
   } else if (e.key === '(') {
     
     result.addText(')');
