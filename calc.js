@@ -118,25 +118,33 @@ calc.result.moveSelToEnd = () => {
 }
 
 
-calc.result.beforeSel = (startOffset = 0) => {
+calc.result.beforeSel = (offset = null) => {
   
   const pos = calc.result.getSel();
   
   const resultText = calc.result.textContent;
   
-  return resultText.slice(startOffset, pos);
+  if (offset) {
     
+    return resultText.slice(pos - offset, pos);
+  
+  } else {
+    
+    return resultText.slice(0, pos);
+    
+  }
+  
 }
 
-calc.result.afterSel = (endOffset = null) => {
+calc.result.afterSel = (offset = null) => {
   
   const pos = calc.result.getSel();
   
   const resultText = calc.result.textContent;
   
-  if (endOffset) {
+  if (offset) {
   
-    return resultText.slice(pos, pos + endOffset);
+    return resultText.slice(pos, pos + offset);
     
   } else {
     
