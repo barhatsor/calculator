@@ -75,6 +75,10 @@ calc.buttons.forEach(button => {
         
         result.moveSelToEnd();
         
+      } else if (button.title === 'multiply') {
+        
+        
+        
       }
       
     }
@@ -84,7 +88,9 @@ calc.buttons.forEach(button => {
 });
 
 
-calc.result.addEventListener('keydown', (e) => {
+document.addEventListener('keydown', (e) => {
+  
+  if (!calc.result.focused()) calc.result.focus();
   
   if (e.key === 'Backspace' || e.keyCode === 8) {
   
