@@ -29,32 +29,26 @@ calc.buttons.forEach(button => {
     
     if (button.type == 'literal') {
       
-      result.textContent += button.title;
+      result.addText(button.title);
       
     } else {
       
       if (button.title === 'clear') {
         
         result.textContent = '';
+        result.focus();
         
       } else if (button.title === 'backspace') {
         
-        result.textContent = result.textContent.slice(0,-1);
+        result.removeText(-1);
         
       } else if (button.title === 'brackets') {
         
-        result.textContent = result.textContent + '(';
-
+        result.addText('()');
+        result.moveSel(-1);
+        
       }
       
-    }
-    
-    calc.focusEndOf(result);
-    
-    if (button.title === 'brackets') {
-      
-      result.textContent = result.textContent + ')';
-    
     }
     
   });
@@ -62,14 +56,77 @@ calc.buttons.forEach(button => {
 });
 
 
-calc.focusEndOf = (el) => {
+calc.result.getSel = () => {
 
   const selection = window.getSelection();
-  const range = document.createRange();
-  range.selectNodeContents(el);
-  selection.removeAllRanges();
-  selection.addRange(range);
-  selection.collapseToEnd();
+  const pos = selection.baseOffset;
+  
+  return pos;
 
+}
+
+calc.result.setSel = (startPos, endPos = startPos) => {
+
+  const selection = window.getSelection();
+  const resultNode = calc.result.childNodes[0];
+  
+  selection.setBaseAndExtent(resultNode, startPos, resultNode, endPos);
+
+}
+
+calc.result.moveSel = (charsToMove) => {
+
+  const selection = window.getSelection();
+  const pos = selection.baseOffset;
+    
+  calc.result.setSel(pos + charsToMove);
+
+}
+
+calc.result.moveSelToEnd = () => {
+  
+  calc.result.setSel(calc.result.textContent.length);
+  
+}
+
+
+calc.result.addText = (text) => {
+    
+  if (document.activeElement !== calc.result) {
+    
+    calc.result.focus();
+    //calc.result.moveSelToEnd();
+        
+  }
+  
+
+  const selection = window.getSelection();
+  const range = selection.getRangeAt(0);
+  
+  const textNode = document.createTextNode(text);
+  range.insertNode(textNode);
+  
+  selection.collapseToEnd();
+  
+}
+
+calc.result.removeText = (charsToRemove = -1) => {
+
+  if (document.activeElement !== calc.result) {
+    
+    calc.result.focus();
+    //calc.result.moveSelToEnd();
+        
+  }
+
+
+  const selection = window.getSelection();
+  const pos = selection.baseOffset;
+
+  calc.result.setSel(pos, pos + charsToRemove);
+  
+  const range = selection.getRangeAt(0);
+  range.deleteContents();
+  
 }
 
