@@ -117,6 +117,8 @@ calc.result.removeText = (charsToRemove = 1) => {
 
   const pos = calc.result.getSel();
   
+  if (pos === 0) return;
+  
   calc.result.setSel(pos, pos - charsToRemove);
   
   const selection = window.getSelection();
