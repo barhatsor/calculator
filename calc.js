@@ -245,6 +245,12 @@ calc.result.getSel = () => {
   let start = selection.baseOffset;
   let end = selection.extentOffset;
   
+  if (calc.result.selCollapsed()) {
+    
+    start = end;
+    
+  }
+  
   if (start > end) {
     
     let tempStart = start;
