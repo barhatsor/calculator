@@ -40,7 +40,7 @@ calc.buttons.forEach(button => {
         
       } else if (button.title === 'backspace') {
         
-        result.removeText(-1);
+        result.removeText(1);
         
       } else if (button.title === 'brackets') {
         
@@ -74,10 +74,10 @@ calc.result.setSel = (startPos, endPos = startPos) => {
 
 }
 
+
 calc.result.moveSel = (charsToMove) => {
 
-  const selection = window.getSelection();
-  const pos = selection.baseOffset;
+  const pos = calc.result.getSel();
     
   calc.result.setSel(pos + charsToMove);
 
@@ -90,41 +90,36 @@ calc.result.moveSelToEnd = () => {
 }
 
 
-calc.result.addText = (text) => {
-    
-  if (document.activeElement !== calc.result) {
-    
-    calc.result.focus();
-    //calc.result.moveSelToEnd();
-        
-  }
+calc.result.focused = () => {
   
-
-  const selection = window.getSelection();
-  const range = selection.getRangeAt(0);
-  
-  const textNode = document.createTextNode(text);
-  range.insertNode(textNode);
-  
-  selection.collapseToEnd();
+  return document.activeElement === calc.result;
   
 }
 
-calc.result.removeText = (charsToRemove = -1) => {
 
-  if (document.activeElement !== calc.result) {
+calc.result.addText = (text) => {
     
-    calc.result.focus();
-    //calc.result.moveSelToEnd();
-        
-  }
-
-
-  const selection = window.getSelection();
-  const pos = selection.baseOffset;
-
-  calc.result.setSel(pos, pos + charsToRemove);
+  if (!calc.result.focused()) calc.result.focus();
   
+  const pos = calc.result.getSel();
+  
+  const resultText = calc.result.textContent;
+  
+  calc.result.textContent = resultText.slice(pos) + text + resultText.slice(0, -pos);
+  
+  calc.result.setSel(pos + text.length);
+  
+}
+
+calc.result.removeText = (charsToRemove = 1) => {
+
+  if (!calc.result.focused()) calc.result.focus();
+
+  const pos = calc.result.getSel();
+  
+  calc.result.setSel(pos, pos - charsToRemove);
+  
+  const selection = window.getSelection();
   const range = selection.getRangeAt(0);
   range.deleteContents();
   
