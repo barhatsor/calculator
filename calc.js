@@ -167,6 +167,18 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault();
     result.addText(symbols.subtract);
     
+  } else if (result.beforeSel(4) === 'sqr' && e.key === 't') {
+    
+    e.preventDefault();
+    result.removeText(-3);
+    result.addText('2' + symbols.root);
+    
+  } else if (result.beforeSel(4) === 'roo' && e.key === 't') {
+    
+    e.preventDefault();
+    result.removeText(-3);
+    result.addText(symbols.root);
+    
   } else if (e.key === '(') {
     
     result.addText(')');
