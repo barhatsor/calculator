@@ -131,6 +131,20 @@ calc.result.focused = () => {
   
 }
 
+calc.result.selCollapsed = () => {
+  
+  if (calc.result.focused()) {
+    
+    return window.getSelection().isCollapsed;
+    
+  } else {
+    
+    return true;
+    
+  }
+  
+}
+
 
 calc.result.addText = (text) => {
   
@@ -145,16 +159,20 @@ calc.result.addText = (text) => {
 }
 
 calc.result.removeText = (charsToRemove = -1) => {
-
-  const pos = calc.result.getSel();
   
-  if (pos === 0) return;
-  
-  calc.result.setSel(pos, pos + charsToRemove);
+  if (calc.result.selCollapsed) {
+    
+    const pos = calc.result.getSel();
+    
+    if (pos === 0) return;
+    
+    calc.result.setSel(pos, pos + charsToRemove);
+    
+  }
   
   const selection = window.getSelection();
   const range = selection.getRangeAt(0);
   range.deleteContents();
-  
+
 }
 
