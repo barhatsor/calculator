@@ -48,6 +48,12 @@ calc.buttons.forEach(button => {
           
         }
         
+        if (result.beforeSel(3) === 'NaN') {
+          
+          result.removeText(-2);
+          
+        }
+        
         result.removeText(-1);
         
       } else if (button.title === 'brackets') {
@@ -63,7 +69,7 @@ calc.buttons.forEach(button => {
           
         } else {
           
-          result.innerHTML = '<span class="NaN">NaN</span>';
+          result.textContent = 'NaN';
           
         }
         
