@@ -105,7 +105,7 @@ calc.result.addText = (text) => {
   
   const resultText = calc.result.textContent;
   
-  calc.result.textContent = resultText.slice(-pos) + text + resultText.slice(pos);
+  calc.result.textContent = resultText.slice(0, pos) + text + resultText.slice(pos);
   
   calc.result.setSel(pos + text.length);
   
