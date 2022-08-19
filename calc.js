@@ -96,25 +96,25 @@ calc.result.moveSelToEnd = () => {
 }
 
 
-calc.result.beforeSel = (startIndex = 0) => {
+calc.result.beforeSel = (startOffset = 0) => {
   
   const pos = calc.result.getSel();
   
   const resultText = calc.result.textContent;
   
-  return resultText.slice(startIndex, pos);
+  return resultText.slice(startOffset, pos);
     
 }
 
-calc.result.afterSel = (endIndex = null) => {
+calc.result.afterSel = (endOffset = null) => {
   
   const pos = calc.result.getSel();
   
   const resultText = calc.result.textContent;
   
-  if (endIndex) {
+  if (endOffset) {
   
-    return resultText.slice(pos, endIndex);
+    return resultText.slice(pos, pos + endOffset);
     
   } else {
     
