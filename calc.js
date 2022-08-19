@@ -173,6 +173,12 @@ document.addEventListener('keydown', (e) => {
     result.removeText(-3);
     result.addText('2' + symbols.root);
     
+  } else if (result.beforeSel(1) === 's' && e.key === 't') {
+    
+    e.preventDefault();
+    result.removeText(-1);
+    result.addText('2' + symbols.root);
+    
   } else if (result.beforeSel(3) === 'roo' && e.key === 't') {
     
     e.preventDefault();
@@ -207,6 +213,16 @@ document.addEventListener('paste', (e) => {
   
   let text = e.clipboardData.getData('text');
   text = text.replaceAll('\n','').replaceAll('\r','');
+  
+  const symbols = calc.symbols;
+  
+  text = text.replaceAll('*', symbols.multiply);
+  text = text.replaceAll('x', symbols.multiply);
+  text = text.replaceAll('X', symbols.multiply);
+  text = text.replaceAll('/', symbols.multiply);
+  text = text.replaceAll('-', symbols.subtract);
+  text = text.replaceAll('–', symbols.subtract);
+  text = text.replaceAll('=', '');
 
   calc.result.addText(text);
 
