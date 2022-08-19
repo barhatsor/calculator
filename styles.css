@@ -85,10 +85,6 @@
   background: rgba(255,255,255,0.1);
 }
 
-.calc .buttons .button.active:active {
-  background: rgba(255,255,255,0.05);
-}
-
 .calc .buttons .button.text {
   font-size: 18px;
 }
