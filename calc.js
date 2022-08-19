@@ -160,7 +160,7 @@ calc.result.addText = (text) => {
 
 calc.result.removeText = (charsToRemove = -1) => {
   
-  if (calc.result.selCollapsed) {
+  if (calc.result.selCollapsed()) {
     
     const pos = calc.result.getSel();
     
