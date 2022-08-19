@@ -76,11 +76,33 @@ calc.buttons.forEach(button => {
           
         }
         
+        
         if (result.beforeSel(3) === 'NaN') {
-          
+      
           result.removeText(-2);
           
+        } else {
+          
+          let wordBefore = result.beforeSel(4).slice(0, -1);
+          
+          if (words.includes(wordBefore)) {
+          
+            result.removeText(-3);
+            
+          } else {
+          
+            wordBefore = result.beforeSel(5).slice(0, -1);
+          
+            if (words.includes(wordBefore)) {
+          
+              result.removeText(-4);
+          
+            }
+            
+          }
+          
         }
+        
         
         result.removeText(-1);
         
