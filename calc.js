@@ -175,17 +175,17 @@ document.addEventListener('keydown', (e) => {
       
     } else {
       
-      let wordBefore = result.beforeSel(4);
+      let wordBefore = result.beforeSel(4).slice(0, -1);
       
-      if (words.includes(wordBefore + '(')) {
+      if (words.includes(wordBefore) {
       
         result.removeText(-4);
         
       } else {
       
-        wordBefore = result.beforeSel(5);
+        wordBefore = result.beforeSel(5).slice(0, -1);
       
-        if (words.includes(wordBefore + '(')) {
+        if (words.includes(wordBefore)) {
       
           result.removeText(-5);
       
