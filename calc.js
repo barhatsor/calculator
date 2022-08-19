@@ -189,7 +189,7 @@ document.addEventListener('keydown', (e) => {
     
   } else if (e.key === '(') {
     
-    if (!result.collapsed()) {
+    if (!result.selCollapsed()) {
       
       const text = '(' + result.getSelText() + ')';
       result.removeText();
