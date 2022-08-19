@@ -26,6 +26,8 @@ calc.buttons.forEach(button => {
   button.addEventListener('click', () => {
     
     const result = calc.result;
+    const resultNum = Number(result.textContent);
+    
     result.focus();
     
     if (button.type == 'literal') {
@@ -52,6 +54,15 @@ calc.buttons.forEach(button => {
         
         result.addText('()');
         result.moveSel(-1);
+        
+      } else if (button.title === 'percent') {
+        
+        if (!isNaN(resultNum)) {
+        
+          result.textContent = resultNum / 100;
+          result.moveSelToEnd();
+          
+        }
         
       }
       
