@@ -26,10 +26,14 @@ calc.buttons = calc.el.querySelectorAll('.button');
 
 calc.buttons.forEach(button => {
     
-  if (button.classList.contains('number') ||
-      button.classList.contains('text')) {
+  if (button.classList.contains('number')) {
     
     button.type = 'literal';
+    button.title = button.textContent;
+    
+  } else if (button.classList.contains('text')) {
+    
+    button.type = 'function-brackets';
     button.title = button.textContent;
     
   } else {
@@ -49,9 +53,14 @@ calc.buttons.forEach(button => {
     
     result.focus();
     
-    if (button.type == 'literal') {
+    if (button.type === 'literal') {
       
       result.addText(button.title);
+      
+    } else if (button.type === 'function-brackets') {
+      
+      result.addText(button.title + '()');
+      result.moveSel(-1);
       
     } else {
       
@@ -99,6 +108,39 @@ calc.buttons.forEach(button => {
       } else if (button.title === 'subtract') {
         
         result.addText(symbols.subtract);
+        
+      } else if (button.title === 'root2') {
+        
+        result.addText('2' + symbols.root);
+        
+      } else if (button.title === 'root3') {
+        
+        result.addText('3' + symbols.root);
+        
+      } else if (button.title === 'root') {
+        
+        result.addText(symbols.root);
+        
+      } else if (button.title === 'pow2') {
+        
+        result.addText(symbols.pow[2]);
+        
+      } else if (button.title === 'pow3') {
+        
+        result.addText(symbols.pow[3]);
+        
+      } else if (button.title === 'pow3') {
+        
+        button.classList.toggle('active');
+        // toggle pow mode
+        
+      } else if (button.title === 'pi') {
+         
+        result.addText(symbols.pi);
+        
+      } else if (button.title === 'e') {
+         
+        result.addText(symbols.e);
         
       }
       
@@ -212,6 +254,11 @@ document.addEventListener('keydown', (e) => {
       result.moveSel(-1);
       
     }
+    
+  } else if (e.key === 'C') {
+    
+    e.preventDefault();
+    result.textContent = '';
     
   } else if (e.key === '=' || e.key === 'Enter') {
     
