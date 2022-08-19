@@ -11,6 +11,7 @@ let calc = {
     add: '+',
     subtract: '-',
     percent: '%',
+    dot: '.',
     pi: 'π',
     e: 'e',
     root: '√',
@@ -128,7 +129,7 @@ calc.buttons.forEach(button => {
         
       } else if (button.title === 'dot') {
          
-        result.addText('.');
+        result.addText(symbols.dot);
         
       } else if (button.title === 'multiply') {
         
