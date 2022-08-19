@@ -39,13 +39,23 @@ calc.buttons.forEach(button => {
         
       } else if (button.title === 'backspace') {
         
-        result.textContent = result.textContent.slice(-1);
+        result.textContent = result.textContent.slice(0,-1);
         
+      } else if (button.title === 'brackets') {
+        
+        result.textContent = result.textContent + '(';
+
       }
       
     }
     
-    calc.focusEndOf(calc.result);
+    calc.focusEndOf(result);
+    
+    if (button.title === 'brackets') {
+      
+      result.textContent = result.textContent + ')';
+    
+    }
     
   });
     
