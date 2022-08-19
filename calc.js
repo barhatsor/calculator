@@ -126,6 +126,10 @@ calc.buttons.forEach(button => {
          
         result.addText(symbols.percent);
         
+      } else if (button.title === 'dot') {
+         
+        result.addText('.');
+        
       } else if (button.title === 'multiply') {
         
         result.addText(symbols.multiply);
