@@ -137,8 +137,8 @@ calc.result.addText = (text) => {
   const result = calc.result;
   const pos = calc.result.getSel();
   
-  const text = result.beforeSel() + text + result.afterSel();
-  calc.result.textContent = text;
+  const resultText = result.beforeSel() + text + result.afterSel();
+  calc.result.textContent = resultText;
   
   calc.result.setSel(pos + text.length);
   
