@@ -169,10 +169,10 @@ document.addEventListener('keydown', (e) => {
     result.removeText(-3);
     result.addText('2' + symbols.root);
     
-  } else if (result.beforeSel(1) === 's' && e.key === 't') {
+  } else if (result.beforeSel(2) === 'sq' && e.key === 't') {
     
     e.preventDefault();
-    result.removeText(-1);
+    result.removeText(-2);
     result.addText('2' + symbols.root);
     
   } else if (result.beforeSel(3) === 'roo' && e.key === 't') {
@@ -244,12 +244,6 @@ calc.result.getSel = () => {
   const selection = window.getSelection();
   let start = selection.baseOffset;
   let end = selection.extentOffset;
-  
-  if (calc.result.selCollapsed()) {
-    
-    start = end;
-    
-  }
   
   if (start > end) {
     
@@ -362,7 +356,7 @@ calc.result.removeText = (charsToRemove) => {
   
   if (calc.result.selCollapsed() && charsToRemove) {
     
-    const pos = calc.result.getSel();
+    const [pos] = calc.result.getSel();
     
     if (pos === 0) return;
     
