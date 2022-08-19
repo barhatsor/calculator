@@ -80,7 +80,8 @@
   background: rgba(255,255,255,0.05);
 }
 
-.calc .buttons .button:active {
+.calc .buttons .button:active,
+.calc .buttons .button.active {
   background: rgba(255,255,255,0.1);
 }
 
