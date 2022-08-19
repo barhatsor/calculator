@@ -15,6 +15,7 @@ let calc = {
     pi: 'π',
     e: 'e',
     root: '√',
+    factorial: '!',
     pow: ['⁰','¹','²','³','⁴','⁵','⁶','⁷','⁸','⁹']
   },
   
@@ -181,6 +182,10 @@ calc.buttons.forEach(button => {
       } else if (button.title === 'e') {
          
         result.addText(symbols.e);
+        
+      } else if (button.title === 'factorial') {
+         
+        result.addText(symbols.factorial);
         
       }
       
