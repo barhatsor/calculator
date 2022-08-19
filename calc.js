@@ -9,7 +9,7 @@ let calc = {
     multiply: '×',
     divide: '÷',
     add: '+',
-    subtract: '−',
+    subtract: '-',
     percent: '%',
     pi: 'π',
     e: 'e',
@@ -48,6 +48,7 @@ calc.buttons.forEach(button => {
     
     const result = calc.result;
     const symbols = calc.symbols;
+    const words = calc.words;
 
     const resultText = result.textContent;
     
@@ -230,7 +231,7 @@ document.addEventListener('keydown', (e) => {
     result.removeText();
     result.addText(symbols.divide);
     
-  } else if (e.key === '-' || e.key === '–') {
+  } else if (e.key === '–') {
     
     e.preventDefault();
     result.removeText();
@@ -314,7 +315,6 @@ document.addEventListener('paste', (e) => {
   text = text.replaceAll('x', symbols.multiply);
   text = text.replaceAll('X', symbols.multiply);
   text = text.replaceAll('/', symbols.multiply);
-  text = text.replaceAll('-', symbols.subtract);
   text = text.replaceAll('–', symbols.subtract);
   text = text.replaceAll('=', '');
 
