@@ -17,7 +17,9 @@ let calc = {
     pow: ['⁰','¹','²','³','⁴','⁵','⁶','⁷','⁸','⁹']
   },
   
-  words: ['hyp', 'sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh']
+  words: ['hyp', 'sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh'],
+  
+  powMode: false
   
 };
 
@@ -56,7 +58,15 @@ calc.buttons.forEach(button => {
     
     if (button.type === 'literal') {
       
-      result.addText(button.title);
+      if (!calc.powMode || !symbols.pow[button.title]) {
+        
+        result.addText(button.title);
+        
+      } else {
+        
+        result.addText(symbols.pow[button.title]);
+        
+      }
       
     } else if (button.type === 'function-brackets') {
       
@@ -152,10 +162,10 @@ calc.buttons.forEach(button => {
         
         result.addText(symbols.pow[3]);
         
-      } else if (button.title === 'pow3') {
+      } else if (button.title === 'pow') {
         
+        calc.powMode = !calc.powMode;
         button.classList.toggle('active');
-        // toggle pow mode
         
       } else if (button.title === 'pi') {
          
@@ -182,121 +192,147 @@ document.addEventListener('keydown', (e) => {
   
   if (!result.focused()) result.focus();
   
-  if (e.key === 'Backspace' &&
-      result.selCollapsed()) {
+  if (!calc.powMode || !symbols.pow[e.key]) {
     
-    if (result.afterSel(1) === ')') {
+    if (e.key === 'Backspace' &&
+        result.selCollapsed()) {
       
-      result.removeText(1);
-
-    }
-    
-    
-    if (result.beforeSel(3) === 'NaN') {
+      if (result.afterSel(1) === ')') {
+        
+        result.removeText(1);
+  
+      }
       
-      result.removeText(-2);
       
-    } else {
-      
-      let wordBefore = result.beforeSel(4).slice(0, -1);
-      
-      if (words.includes(wordBefore)) {
-      
-        result.removeText(-3);
+      if (result.beforeSel(3) === 'NaN') {
+        
+        result.removeText(-2);
         
       } else {
-      
-        wordBefore = result.beforeSel(5).slice(0, -1);
-      
+        
+        let wordBefore = result.beforeSel(4).slice(0, -1);
+        
         if (words.includes(wordBefore)) {
-      
-          result.removeText(-4);
-      
+        
+          result.removeText(-3);
+          
+        } else {
+        
+          wordBefore = result.beforeSel(5).slice(0, -1);
+        
+          if (words.includes(wordBefore)) {
+        
+            result.removeText(-4);
+        
+          }
+          
         }
         
       }
       
-    }
-    
-  } else if ((e.key === 'x' || e.key === 'X' ||
-             e.key === '*') && !(e.metaKey || e.ctrlKey)) {
+    } else if ((e.key === 'x' || e.key === 'X' ||
+               e.key === '*') && !(e.metaKey || e.ctrlKey)) {
+          
+      e.preventDefault();
+      result.removeText();
+      result.addText(symbols.multiply);
+      
+    } else if (e.key === '/') {
+      
+      e.preventDefault();
+      result.removeText();
+      result.addText(symbols.divide);
+      
+    } else if (e.key === '–') {
+      
+      e.preventDefault();
+      result.removeText();
+      result.addText(symbols.subtract);
+      
+    } else if (result.beforeSel(3) === 'sqr' && e.key === 't') {
+      
+      e.preventDefault();
+      result.removeText(-3);
+      result.addText('2' + symbols.root);
+      
+    } else if (result.beforeSel(2) === 'sq' && e.key === 't') {
+      
+      e.preventDefault();
+      result.removeText(-2);
+      result.addText('2' + symbols.root);
+      
+    } else if (result.beforeSel(3) === 'roo' && e.key === 't') {
+      
+      e.preventDefault();
+      result.removeText(-3);
+      result.addText(symbols.root);
+      
+    } else if (result.beforeSel(1) === 'r' && e.key === 't') {
+      
+      e.preventDefault();
+      result.removeText(-1);
+      result.addText(symbols.root);
+      
+    } else if (result.beforeSel(1) === 'p' && e.key === 'i') {
+      
+      e.preventDefault();
+      result.removeText(-1);
+      result.addText(symbols.pi);
+      
+    } else if (result.beforeSel(2) === 'po' && e.key === 'w') {
+      
+      e.preventDefault();
+      result.removeText(-2);
+      
+      calc.powMode = !calc.powMode;
+      calc.el.querySelector('.button.pow').classList.toggle('active');
+      
+    } else if (result.beforeSel(1) === 'p' && e.key === 'w') {
+      
+      e.preventDefault();
+      result.removeText(-1);
+      
+      calc.powMode = !calc.powMode;
+      calc.el.querySelector('.button.pow').classList.toggle('active');
+      
+    } else if (e.key === '(') {
+      
+      if (!result.selCollapsed()) {
         
-    e.preventDefault();
-    result.removeText();
-    result.addText(symbols.multiply);
-    
-  } else if (e.key === '/') {
-    
-    e.preventDefault();
-    result.removeText();
-    result.addText(symbols.divide);
-    
-  } else if (e.key === '–') {
-    
-    e.preventDefault();
-    result.removeText();
-    result.addText(symbols.subtract);
-    
-  } else if (result.beforeSel(3) === 'sqr' && e.key === 't') {
-    
-    e.preventDefault();
-    result.removeText(-3);
-    result.addText('2' + symbols.root);
-    
-  } else if (result.beforeSel(2) === 'sq' && e.key === 't') {
-    
-    e.preventDefault();
-    result.removeText(-2);
-    result.addText('2' + symbols.root);
-    
-  } else if (result.beforeSel(3) === 'roo' && e.key === 't') {
-    
-    e.preventDefault();
-    result.removeText(-3);
-    result.addText(symbols.root);
-    
-  } else if (result.beforeSel(1) === 'r' && e.key === 't') {
-    
-    e.preventDefault();
-    result.removeText(-1);
-    result.addText(symbols.root);
-    
-  } else if (result.beforeSel(1) === 'p' && e.key === 'i') {
-    
-    e.preventDefault();
-    result.removeText(-1);
-    result.addText(symbols.pi);
-    
-  } else if (e.key === '(') {
-    
-    if (!result.selCollapsed()) {
+        e.preventDefault();
+        
+        const text = '(' + result.getSelText() + ')';
+        result.removeText();
+        
+        result.addText(text);
+        result.moveSel(-1);
+        
+      } else {
+      
+        result.addText(')');
+        result.moveSel(-1);
+        
+      }
+      
+    } else if (e.key === 'C') {
+      
+      e.preventDefault();
+      result.textContent = '';
+      
+    } else if (e.key === '=' || e.key === 'Enter') {
       
       e.preventDefault();
       
-      const text = '(' + result.getSelText() + ')';
-      result.removeText();
-      
-      result.addText(text);
-      result.moveSel(-1);
-      
-    } else {
-    
-      result.addText(')');
-      result.moveSel(-1);
+      // result
       
     }
     
-  } else if (e.key === 'C') {
-    
-    e.preventDefault();
-    result.textContent = '';
-    
-  } else if (e.key === '=' || e.key === 'Enter') {
+  } else {
     
     e.preventDefault();
     
-    // result
-    
+    result.addText(symbols.pow[e.key]);
+
   }
   
 });
