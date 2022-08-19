@@ -117,10 +117,11 @@ document.addEventListener('keydown', (e) => {
   
   if (!result.focused()) result.focus();
   
-  if (e.key === 'Backspace') {
-  
-    if (result.afterSel(1) === ')') {
+  if (e.key === 'Backspace' &&
+      result.selCollapsed()) {
     
+    if (result.afterSel(1) === ')') {
+      
       result.removeText(1);
 
     }
