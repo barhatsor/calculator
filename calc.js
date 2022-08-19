@@ -190,6 +190,8 @@ document.addEventListener('keydown', (e) => {
           result.removeText(-5);
       
         }
+        
+      }
       
     }
     
