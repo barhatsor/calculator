@@ -269,7 +269,7 @@ calc.result.setSel = (startPos, endPos = startPos) => {
 
 calc.result.moveSel = (charsToMove) => {
 
-  const [pos] = calc.result.getSel();
+  const [, pos] = calc.result.getSel();
     
   calc.result.setSel(pos + charsToMove);
 
@@ -302,7 +302,7 @@ calc.result.beforeSel = (offset = null) => {
 
 calc.result.afterSel = (offset = null) => {
   
-  const [startPos, pos] = calc.result.getSel();
+  const [, pos] = calc.result.getSel();
   
   const resultText = calc.result.textContent;
   
@@ -343,7 +343,7 @@ calc.result.selCollapsed = () => {
 calc.result.addText = (text) => {
   
   const result = calc.result;
-  const [pos] = calc.result.getSel();
+  const [, pos] = calc.result.getSel();
   
   const resultText = result.beforeSel() + text + result.afterSel();
   calc.result.textContent = resultText;
