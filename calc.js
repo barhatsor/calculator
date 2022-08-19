@@ -53,8 +53,6 @@ calc.buttons.forEach(button => {
     const result = calc.result;
     const symbols = calc.symbols;
     const words = calc.words;
-
-    const resultText = result.textContent;
     
     result.focus();
     
@@ -186,6 +184,10 @@ calc.buttons.forEach(button => {
       } else if (button.title === 'factorial') {
          
         result.addText(symbols.factorial);
+        
+      } else if (button.title === 'equals') {
+         
+        // @@ parse and calculate result
         
       }
       
@@ -337,7 +339,7 @@ document.addEventListener('keydown', (e) => {
       
       e.preventDefault();
       
-      // result
+      // @@ parse and calculate result
       
     }
     
