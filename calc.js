@@ -177,9 +177,9 @@ document.addEventListener('keydown', (e) => {
       
       let wordBefore = result.beforeSel(4).slice(0, -1);
       
-      if (words.includes(wordBefore) {
+      if (words.includes(wordBefore)) {
       
-        result.removeText(-4);
+        result.removeText(-3);
         
       } else {
       
@@ -187,7 +187,7 @@ document.addEventListener('keydown', (e) => {
       
         if (words.includes(wordBefore)) {
       
-          result.removeText(-5);
+          result.removeText(-4);
       
         }
         
