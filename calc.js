@@ -5,6 +5,10 @@ let calc = {
   result: document.querySelector('.calc .header .number'),
   buttons: {},
   
+  parser: {},
+  
+  numbers: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+  
   symbols: {
     multiply: '×',
     divide: '÷',
@@ -27,25 +31,63 @@ let calc = {
 
 
 
-calc.parse = (formula) => {
+calc.parser.parse = (formula) => {
   
+  const parser = calc.parser;
+  const numbers = calc.numbers;
   const symbols = calc.symbols;
-  const functions = calc.words;
+  const words = calc.words;
   
   formula = formula.replaceAll(' ', '');
+
+
+  const root = parser.find(symbols.root, formula);
+  
+  root.forEach(rootIndex => {
+    
+    let rootStrength = parser.findNumberBefore(rootIndex, formula);
+    if (!rootStrength) rootStrength = 2;
+    
+    let rootValue = parser.findNumberAfter(rootIndex, formula);
+    if (!rootValue) return 'NaN';
+    
+    formula = parser.remove(symbols.root.length, rootIndex, formula);
+    
+    formula = parser.insert('Math.pow(' + rootValue + ', 1/' + rootStrength + ')', rootIndex, formula);
+    
+  });
+  
+
+  /*
+  symbols.pow.forEach((symbol, index) => {
+    
+    formula = formula.replaceAll(symbol, index + 'pow');
+    
+  });
+  */
+  
+  
+  words.forEach(word => {
+    
+    if (word === 'hyp') {
+      
+      formula = formula.replaceAll(word, 'Math.hypot');
+      
+    } else {
+    
+      formula = formula.replaceAll(word, 'Math.' + word);
+      
+    }
+    
+  });
+  
   
   formula = formula.replaceAll(symbols.multiply, '*');
   formula = formula.replaceAll(symbols.divide, '/');
   formula = formula.replaceAll(symbols.percent, '/100');
   formula = formula.replaceAll(symbols.pi, 'Math.PI');
   formula = formula.replaceAll(symbols.e, 'Math.E');
-  formula = formula.replaceAll(symbols.root, 'root');
-
-  symbols.pow.forEach((symbol, index) => {
-    
-    formula = formula.replaceAll(symbol, 'pow' + index);
-    
-  });
+  
   
   console.log(formula);
   return formula;
@@ -53,7 +95,126 @@ calc.parse = (formula) => {
 }
 
 
-calc.run = (formula) => {
+calc.parser.find = (searchStr, sourceStr) => {
+  
+  return [...sourceStr.matchAll(new RegExp(searchStr, 'gi'))].map(a => a.index);
+  
+}
+
+calc.parser.insert = (subStr, index, str) => {
+  
+  return str.slice(0, index) + subStr + str.slice(index);
+  
+}
+
+calc.parser.remove = (offset, index, str) => {
+  
+  if (offset > 0) {
+  
+    str = str.slice(0, index) + str.slice(index + offset);
+    
+  } else {
+    
+    str = str.slice(0, index + offset) + str.slice(index);
+    
+  }
+  
+  return str;
+    
+}
+
+
+calc.parser.findNumberBefore = (index, str) => {
+  
+  const parser = calc.parser;
+  const allowedChars = parser.allowedChars();
+  
+  let number = '';
+  
+  for (let i = index; i >= 0; i--) {
+
+    const char = str[i];
+
+    if (!allowedChars.includes(char) &&
+        !parser.wordBefore(index, str)) break;
+
+    number += char;
+
+  }
+  
+  if (number === '') return null;
+  
+  return number;
+  
+}
+
+calc.parser.findNumberAfter = (index, str) => {
+  
+  const allowedChars = calc.parser.allowedChars();
+  
+  let number = '';
+
+  for (let i = index; i < str.length; i++) {
+
+    const char = str[i];
+
+    if (!allowedChars.includes(char) &&
+        !parser.wordBefore(index, str)) break;
+
+    number += char;
+
+  }
+  
+  if (number === '') return null;
+  
+  return number;
+  
+}
+
+
+calc.parser.wordBefore = (index, str) => {
+  
+  const words = calc.words;
+  
+  let subStr = str.slice(index - 4, index - 1);
+  
+  if (words.includes(subStr)) return true;
+  
+  subStr = str.slice(index - 5, index - 1);
+  
+  if (words.includes(subStr)) return true;
+  
+  return false;
+  
+}
+
+
+calc.parser.factorial = (n) => {
+  
+  let res = 1;
+
+  for (let i = 2; i <= n; i++) {
+    res = res * i;
+  }
+  
+  return res;
+  
+}
+
+
+calc.parser.allowedChars = () => {
+  
+  let allowedChars = Object.values(calc.symbols);
+  allowedChars.pop();
+  
+  allowedChars = [...calc.numbers, ...calc.symbols.pow, ...allowedChars];
+  
+  return allowedChars;
+  
+}
+
+
+calc.parser.run = (formula) => {
   
   let result = NaN;
   
@@ -61,7 +222,7 @@ calc.run = (formula) => {
     
     result = eval(formula);
     
-  }
+  } catch(e) {}
   
   return result;
   
@@ -72,9 +233,9 @@ calc.calculate = () => {
   
   let formula = calc.result.textContent;
   
-  formula = calc.parse(formula);
+  formula = calc.parser.parse(formula);
   
-  const result = calc.run(formula);
+  const result = calc.parser.run(formula);
   
   calc.result.textContent = result;
   calc.result.moveSelToEnd();
@@ -90,17 +251,17 @@ calc.buttons.forEach(button => {
   if (button.classList.contains('number')) {
     
     button.type = 'literal';
-    button.title = button.textContent;
+    button.name = button.textContent;
     
   } else if (button.classList.contains('text')) {
     
     button.type = 'function-brackets';
-    button.title = button.textContent;
+    button.name = button.textContent;
     
   } else {
     
     button.type = 'function';
-    button.title = button.classList.value.replace('button', '').replaceAll(' ','');
+    button.name = button.classList.value.replace('button', '').replaceAll(' ','');
     
   }
   
@@ -115,28 +276,28 @@ calc.buttons.forEach(button => {
     
     if (button.type === 'literal') {
       
-      if (!calc.powMode || !symbols.pow[button.title]) {
+      if (!calc.powMode || !symbols.pow[button.name]) {
         
-        result.addText(button.title);
+        result.addText(button.name);
         
       } else {
         
-        result.addText(symbols.pow[button.title]);
+        result.addText(symbols.pow[button.name]);
         
       }
       
     } else if (button.type === 'function-brackets') {
       
-      result.addText(button.title + '()');
+      result.addText(button.name + '()');
       result.moveSel(-1);
       
     } else {
       
-      if (button.title === 'clear') {
+      if (button.name === 'clear') {
         
         result.textContent = '';
         
-      } else if (button.title === 'backspace') {
+      } else if (button.name === 'backspace') {
         
         if (result.beforeSel(1) === '(' &&
           result.afterSel(1) === ')') {
@@ -176,73 +337,73 @@ calc.buttons.forEach(button => {
         
         result.removeText(-1);
         
-      } else if (button.title === 'brackets') {
+      } else if (button.name === 'brackets') {
         
         result.addText('()');
         result.moveSel(-1);
         
-      } else if (button.title === 'percent') {
+      } else if (button.name === 'percent') {
          
         result.addText(symbols.percent);
         
-      } else if (button.title === 'dot') {
+      } else if (button.name === 'dot') {
          
         result.addText(symbols.dot);
         
-      } else if (button.title === 'multiply') {
+      } else if (button.name === 'multiply') {
         
         result.addText(symbols.multiply);
         
-      } else if (button.title === 'divide') {
+      } else if (button.name === 'divide') {
         
         result.addText(symbols.divide);
         
-      } else if (button.title === 'add') {
+      } else if (button.name === 'add') {
         
         result.addText(symbols.add);
         
-      } else if (button.title === 'subtract') {
+      } else if (button.name === 'subtract') {
         
         result.addText(symbols.subtract);
         
-      } else if (button.title === 'root2') {
+      } else if (button.name === 'root2') {
         
         result.addText('2' + symbols.root);
         
-      } else if (button.title === 'root3') {
+      } else if (button.name === 'root3') {
         
         result.addText('3' + symbols.root);
         
-      } else if (button.title === 'root') {
+      } else if (button.name === 'root') {
         
         result.addText(symbols.root);
         
-      } else if (button.title === 'pow2') {
+      } else if (button.name === 'pow2') {
         
         result.addText(symbols.pow[2]);
         
-      } else if (button.title === 'pow3') {
+      } else if (button.name === 'pow3') {
         
         result.addText(symbols.pow[3]);
         
-      } else if (button.title === 'pow') {
+      } else if (button.name === 'pow') {
         
         calc.powMode = !calc.powMode;
         button.classList.toggle('active');
         
-      } else if (button.title === 'pi') {
+      } else if (button.name === 'pi') {
          
         result.addText(symbols.pi);
         
-      } else if (button.title === 'e') {
+      } else if (button.name === 'e') {
          
         result.addText(symbols.e);
         
-      } else if (button.title === 'factorial') {
+      } else if (button.name === 'factorial') {
          
         result.addText(symbols.factorial);
         
-      } else if (button.title === 'equals') {
+      } else if (button.name === 'equals') {
         
         calc.calculate();
         
