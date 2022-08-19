@@ -158,7 +158,7 @@ document.addEventListener('keydown', (e) => {
     result.addText(')');
     result.moveSel(-1);
     
-  } else if (e.key === '=') {
+  } else if (e.key === '=' || e.key === 'Enter') {
     
     e.preventDefault();
     
@@ -166,6 +166,18 @@ document.addEventListener('keydown', (e) => {
     
   }
   
+});
+
+
+document.addEventListener('paste', (e) => {
+
+  e.preventDefault();
+  
+  let text = e.clipboardData.getData('text');
+  text = text.replaceAll('\n','').replaceAll('\r','');
+
+  calc.result.textContent = text;
+
 });
 
 
