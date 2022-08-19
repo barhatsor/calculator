@@ -26,6 +26,53 @@ let calc = {
 };
 
 
+
+calc.parse = (formula) => {
+  
+  const symbols = calc.symbols;
+  const functions = calc.words;
+  
+  formula = formula.replaceAll(' ', '');
+  
+  formula = formula.replaceAll(symbols.multiply, '*');
+  formula = formula.replaceAll(symbols.divide, '/');
+  formula = formula.replaceAll(symbols.percent, '/100');
+  formula = formula.replaceAll(symbols.pi, 'Math.PI');
+  formula = formula.replaceAll(symbols.e, 'Math.E');
+  formula = formula.replaceAll(symbols.root, 'root');
+
+  symbols.pow.forEach(symbol => {
+    
+    formula = formula.replaceAll(symbol, 'pow' + symbol);
+    
+  });
+  
+  console.log(formula);
+
+}
+
+
+calc.run = (formula) => {
+  
+  return formula;
+  
+}
+
+
+calc.calculate = () => {
+  
+  let formula = calc.result.textContent;
+  
+  formula = calc.parse(formula);
+  
+  const result = calc.run(formula);
+  
+  calc.result.textContent = result;
+  
+}
+
+
+
 calc.buttons = calc.el.querySelectorAll('.button');
 
 calc.buttons.forEach(button => {
@@ -186,8 +233,8 @@ calc.buttons.forEach(button => {
         result.addText(symbols.factorial);
         
       } else if (button.title === 'equals') {
-         
-        // @@ parse and calculate result
+        
+        calc.calculate();
         
       }
       
@@ -339,7 +386,7 @@ document.addEventListener('keydown', (e) => {
       
       e.preventDefault();
       
-      // @@ parse and calculate result
+      calc.calculate();
       
     }
     
