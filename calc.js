@@ -10,6 +10,7 @@ let calc = {
     divide: '÷',
     add: '+',
     subtract: '−',
+    percent: '%',
     pi: 'π',
     e: 'e',
     root: '√',
@@ -44,7 +45,7 @@ calc.buttons.forEach(button => {
     const result = calc.result;
     const symbols = calc.symbols;
 
-    const resultNum = Number(result.textContent);
+    const resultText = result.textContent;
     
     result.focus();
     
@@ -80,18 +81,8 @@ calc.buttons.forEach(button => {
         result.moveSel(-1);
         
       } else if (button.title === 'percent') {
-        
-        if (!isNaN(resultNum)) {
-        
-          result.textContent = resultNum / 100;
-          
-        } else {
-          
-          result.textContent = 'NaN';
-          
-        }
-        
-        result.moveSelToEnd();
+         
+        result.addText(symbols.percent);
         
       } else if (button.title === 'multiply') {
         
@@ -157,16 +148,19 @@ document.addEventListener('keydown', (e) => {
              e.key === '*') && !(e.metaKey || e.ctrlKey)) {
         
     e.preventDefault();
+    result.removeText();
     result.addText(symbols.multiply);
     
   } else if (e.key === '/') {
     
     e.preventDefault();
+    result.removeText();
     result.addText(symbols.divide);
     
   } else if (e.key === '-' || e.key === '–') {
     
     e.preventDefault();
+    result.removeText();
     result.addText(symbols.subtract);
     
   } else if (result.beforeSel(3) === 'sqr' && e.key === 't') {
@@ -195,8 +189,19 @@ document.addEventListener('keydown', (e) => {
     
   } else if (e.key === '(') {
     
-    result.addText(')');
-    result.moveSel(-1);
+    if (!result.collapsed()) {
+      
+      const text = '(' + result.getSelText() + ')';
+      result.removeText();
+      
+      result.addText(text);
+      
+    } else {
+    
+      result.addText(')');
+      result.moveSel(-1);
+      
+    }
     
   } else if (e.key === '=' || e.key === 'Enter') {
     
@@ -335,9 +340,9 @@ calc.result.addText = (text) => {
   
 }
 
-calc.result.removeText = (charsToRemove = -1) => {
+calc.result.removeText = (charsToRemove) => {
   
-  if (calc.result.selCollapsed()) {
+  if (calc.result.selCollapsed() && charsToRemove) {
     
     const pos = calc.result.getSel();
     
@@ -350,6 +355,15 @@ calc.result.removeText = (charsToRemove = -1) => {
   const selection = window.getSelection();
   const range = selection.getRangeAt(0);
   range.deleteContents();
+
+}
+
+calc.result.getSelText = () => {
+
+  const selection = window.getSelection();
+  const text = selection.toString();
+  
+  return text;
 
 }
 
