@@ -82,7 +82,8 @@ calc.buttons.forEach(button => {
         
       } else if (button.title === 'backspace') {
         
-        if (result.afterSel(1) === ')') {
+        if (result.beforeSel(1) === '(' &&
+            result.afterSel(1) === ')') {
           
           result.removeText(1);
           
@@ -202,10 +203,11 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Backspace' &&
         result.selCollapsed()) {
       
-      if (result.afterSel(1) === ')') {
-        
+      if (result.beforeSel(1) === '(' &&
+          result.afterSel(1) === ')') {
+          
         result.removeText(1);
-  
+          
       }
       
       
