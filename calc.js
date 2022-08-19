@@ -88,9 +88,9 @@ calc.result.addEventListener('keydown', (e) => {
   
   if (e.key === 'Backspace' || e.keyCode === 8) {
   
-    if (result.beforeSel(3) === 'NaN') {
+    if (calc.result.beforeSel(3) === 'NaN') {
       
-      result.removeText(-2);
+      calc.result.removeText(-2);
   
     }
     
