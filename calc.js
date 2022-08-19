@@ -120,6 +120,7 @@ document.addEventListener('keydown', (e) => {
   
   const result = calc.result;
   const symbols = calc.symbols;
+  const words = calc.words;
   
   if (!result.focused()) result.focus();
   
@@ -131,10 +132,23 @@ document.addEventListener('keydown', (e) => {
 
     }
     
-    if (result.beforeSel(3) === 'NaN') {
+    
+    let wordBefore = result.beforeSel(3);
+    
+    if (words.includes(wordBefore)) {
       
       result.removeText(-2);
-  
+      
+    } else {
+    
+      wordBefore = result.beforeSel(4);
+      
+      if (words.includes(wordBefore)) {
+        
+        result.removeText(-3);
+        
+      }
+      
     }
     
   } else if ((e.key === 'x' || e.key === 'X' ||
@@ -302,4 +316,15 @@ calc.result.removeText = (charsToRemove = -1) => {
   range.deleteContents();
 
 }
+
+
+
+calc.result.setAttribute('contenteditable', 'plaintext-only');
+calc.result.setAttribute('spellcheck', 'false');
+calc.result.setAttribute('autocorrect', 'off');
+calc.result.setAttribute('autocomplete', 'off');
+calc.result.setAttribute('aria-autocomplete', 'list');
+calc.result.setAttribute('autocapitalize', 'off');
+calc.result.setAttribute('data-gramm', 'false');
+calc.result.setAttribute('enterkeyhint', 'enter');
 
