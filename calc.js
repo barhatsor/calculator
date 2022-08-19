@@ -9,7 +9,7 @@ let calc = {
     multiply: '×',
     divide: '÷',
     add: '+',
-    subtract: '-',
+    subtract: '−',
     pi: 'π',
     e: 'e',
     root: '√',
@@ -125,6 +125,12 @@ document.addEventListener('keydown', (e) => {
   
   if (e.key === 'Backspace') {
   
+    if (result.afterSel(1) === ')') {
+    
+      result.removeText(1);
+
+    }
+    
     if (result.beforeSel(3) === 'NaN') {
       
       result.removeText(-2);
@@ -142,10 +148,21 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault();
     result.addText(symbols.divide);
     
+  } else if (e.key === '-' || e.key === '–') {
+    
+    e.preventDefault();
+    result.addText(symbols.subtract);
+    
   } else if (e.key === '(') {
     
     result.addText(')');
     result.moveSel(-1);
+    
+  } else if (e.key === '=') {
+    
+    e.preventDefault();
+    
+    // result
     
   }
   
