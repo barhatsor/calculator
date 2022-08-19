@@ -77,7 +77,19 @@ calc.buttons.forEach(button => {
         
       } else if (button.title === 'multiply') {
         
+        result.addText('*');
         
+      } else if (button.title === 'divide') {
+        
+        result.addText('/');
+        
+      } else if (button.title === 'add') {
+        
+        result.addText('+');
+        
+      } else if (button.title === 'subtract') {
+        
+        result.addText('-');
         
       }
       
@@ -90,13 +102,15 @@ calc.buttons.forEach(button => {
 
 document.addEventListener('keydown', (e) => {
   
-  if (!calc.result.focused()) calc.result.focus();
+  const result = calc.result;
+  
+  if (!result.focused()) result.focus();
   
   if (e.key === 'Backspace' || e.keyCode === 8) {
   
-    if (calc.result.beforeSel(3) === 'NaN') {
+    if (result.beforeSel(3) === 'NaN') {
       
-      calc.result.removeText(-2);
+      result.removeText(-2);
   
     }
     
