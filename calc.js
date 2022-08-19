@@ -191,10 +191,13 @@ document.addEventListener('keydown', (e) => {
     
     if (!result.selCollapsed()) {
       
+      e.preventDefault();
+      
       const text = '(' + result.getSelText() + ')';
       result.removeText();
       
       result.addText(text);
+      result.moveSel(-1);
       
     } else {
     
@@ -239,9 +242,18 @@ document.addEventListener('paste', (e) => {
 calc.result.getSel = () => {
 
   const selection = window.getSelection();
-  const pos = selection.baseOffset;
+  let start = selection.baseOffset;
+  let end = selection.extentOffset;
   
-  return pos;
+  if (start > end) {
+    
+    let tempStart = start;
+    start = end;
+    end = tempStart;
+    
+  }
+  
+  return [start, end];
 
 }
 
@@ -257,7 +269,7 @@ calc.result.setSel = (startPos, endPos = startPos) => {
 
 calc.result.moveSel = (charsToMove) => {
 
-  const pos = calc.result.getSel();
+  const [pos] = calc.result.getSel();
     
   calc.result.setSel(pos + charsToMove);
 
@@ -272,7 +284,7 @@ calc.result.moveSelToEnd = () => {
 
 calc.result.beforeSel = (offset = null) => {
   
-  const pos = calc.result.getSel();
+  const [pos] = calc.result.getSel();
   
   const resultText = calc.result.textContent;
   
@@ -290,7 +302,7 @@ calc.result.beforeSel = (offset = null) => {
 
 calc.result.afterSel = (offset = null) => {
   
-  const pos = calc.result.getSel();
+  const [startPos, pos] = calc.result.getSel();
   
   const resultText = calc.result.textContent;
   
@@ -331,7 +343,7 @@ calc.result.selCollapsed = () => {
 calc.result.addText = (text) => {
   
   const result = calc.result;
-  const pos = calc.result.getSel();
+  const [pos] = calc.result.getSel();
   
   const resultText = result.beforeSel() + text + result.afterSel();
   calc.result.textContent = resultText;
