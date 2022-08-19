@@ -1,9 +1,25 @@
 
 let calc = {
+  
   el: document.querySelector('.calc'),
   result: document.querySelector('.calc .header .number'),
-  buttons: {}
+  buttons: {},
+  
+  symbols: {
+    multiply: '×',
+    divide: '÷',
+    add: '+',
+    subtract: '-',
+    pi: 'π',
+    e: 'e',
+    root: '√',
+    pow: ['⁰','¹','²','³','⁴','⁵','⁶','⁷','⁸','⁹']
+  },
+  
+  words: ['NaN', 'hyp', 'sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh']
+  
 };
+
 
 calc.buttons = calc.el.querySelectorAll('.button');
 
@@ -77,7 +93,7 @@ calc.buttons.forEach(button => {
         
       } else if (button.title === 'multiply') {
         
-        result.addText('*');
+        result.addText('×');
         
       } else if (button.title === 'divide') {
         
@@ -103,16 +119,28 @@ calc.buttons.forEach(button => {
 document.addEventListener('keydown', (e) => {
   
   const result = calc.result;
+  const symbols = calc.symbols;
   
   if (!result.focused()) result.focus();
   
-  if (e.key === 'Backspace' || e.keyCode === 8) {
+  if (e.key === 'Backspace') {
   
     if (result.beforeSel(3) === 'NaN') {
       
       result.removeText(-2);
   
     }
+    
+  } else if (e.key === 'x' || e.key === 'X' ||
+             e.key === '*') {
+    
+    e.preventDefault();
+    result.addText(symbols.multiply);
+    
+  } else if (e.key === '/') {
+    
+    e.preventDefault();
+    result.addText(symbols.divide);
     
   }
   
