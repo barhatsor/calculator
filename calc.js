@@ -42,6 +42,8 @@ calc.buttons.forEach(button => {
   button.addEventListener('click', () => {
     
     const result = calc.result;
+    const symbols = calc.symbols;
+
     const resultNum = Number(result.textContent);
     
     result.focus();
@@ -93,19 +95,19 @@ calc.buttons.forEach(button => {
         
       } else if (button.title === 'multiply') {
         
-        result.addText('×');
+        result.addText(symbols.multiply);
         
       } else if (button.title === 'divide') {
         
-        result.addText('/');
+        result.addText(symbols.divide);
         
       } else if (button.title === 'add') {
         
-        result.addText('+');
+        result.addText(symbols.add);
         
       } else if (button.title === 'subtract') {
         
-        result.addText('-');
+        result.addText(symbols.subtract);
         
       }
       
