@@ -62,6 +62,10 @@ calc.buttons.forEach(button => {
           result.textContent = resultNum / 100;
           result.moveSelToEnd();
           
+        } else {
+          
+          result.innerHTML = '<span class="NaN">NaN</span>';
+          
         }
         
       }
