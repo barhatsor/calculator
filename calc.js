@@ -138,7 +138,7 @@ document.addEventListener('keydown', (e) => {
     }
     
   } else if (e.key === 'x' || e.key === 'X' ||
-             e.key === '*') {
+             e.key === '*' && !(e.metaKey || e.ctrlKey)) {
     
     e.preventDefault();
     result.addText(symbols.multiply);
