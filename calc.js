@@ -187,6 +187,12 @@ document.addEventListener('keydown', (e) => {
     result.removeText(-1);
     result.addText(symbols.root);
     
+  } else if (result.beforeSel(1) === 'p' && e.key === 'i') {
+    
+    e.preventDefault();
+    result.removeText(-1);
+    result.addText(symbols.pi);
+    
   } else if (e.key === '(') {
     
     if (!result.selCollapsed()) {
@@ -354,7 +360,16 @@ calc.result.addText = (text) => {
 
 calc.result.removeText = (charsToRemove) => {
   
-  if (calc.result.selCollapsed() && charsToRemove) {
+  const selection = window.getSelection();
+  
+  if (!calc.result.selCollapsed()) {
+    
+    let range = selection.getRangeAt(0);
+    range.deleteContents();
+    
+  }
+  
+  if (charsToRemove) {
     
     const [pos] = calc.result.getSel();
     
@@ -364,8 +379,7 @@ calc.result.removeText = (charsToRemove) => {
     
   }
   
-  const selection = window.getSelection();
-  const range = selection.getRangeAt(0);
+  let range = selection.getRangeAt(0);
   range.deleteContents();
 
 }
