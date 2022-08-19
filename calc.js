@@ -41,20 +41,29 @@ calc.parse = (formula) => {
   formula = formula.replaceAll(symbols.e, 'Math.E');
   formula = formula.replaceAll(symbols.root, 'root');
 
-  symbols.pow.forEach(symbol => {
+  symbols.pow.forEach((symbol, index) => {
     
-    formula = formula.replaceAll(symbol, 'pow' + symbol);
+    formula = formula.replaceAll(symbol, 'pow' + index);
     
   });
   
   console.log(formula);
+  return formula;
 
 }
 
 
 calc.run = (formula) => {
   
-  return formula;
+  let result = NaN;
+  
+  try {
+    
+    result = eval(formula);
+    
+  }
+  
+  return result;
   
 }
 
@@ -68,6 +77,7 @@ calc.calculate = () => {
   const result = calc.run(formula);
   
   calc.result.textContent = result;
+  calc.result.moveSelToEnd();
   
 }
 
