@@ -420,7 +420,7 @@ calc.calculate = () => {
   
   const result = calc.parser.run(formula);
   
-  if (formula !== result) {
+  if (formula !== String(result)) {
   
     calc.historyEl.textContent = formula;
     calc.history.unshift(formula);
