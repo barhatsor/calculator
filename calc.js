@@ -42,6 +42,24 @@ calc.parser.parse = (formula) => {
   formula = formula.replaceAll(' ', '');
 
 
+  const root = parser.find(symbols.root, formula);
+  
+  root.forEach(rootIndex => {
+    
+    let rootStrength = parser.findNumberBefore(rootIndex, formula);
+    if (!rootStrength) rootStrength = 2;
+    
+    let rootValue = parser.findNumberAfter(rootIndex, formula);
+    if (!rootValue) return 'NaN';
+
+    formula = parser.remove(symbols.root.length + rootValue.length, rootIndex, formula);
+    formula = parser.remove(rootStrength.length, rootIndex - rootStrength.length, formula);    
+
+    formula = parser.insert('Math.pow(' + rootValue + ',1/' + rootStrength + ')', rootIndex, formula);
+    
+  });
+  
+  
   words.forEach(word => {
     
     if (word === 'hyp') {
@@ -61,24 +79,6 @@ calc.parser.parse = (formula) => {
       formula = formula.replaceAll(word + '(', 'Math.' + word + '(');
       
     }
-    
-  });
-
-
-  const root = parser.find(symbols.root, formula);
-  
-  root.forEach(rootIndex => {
-    
-    let rootStrength = parser.findNumberBefore(rootIndex, formula);
-    if (!rootStrength) rootStrength = 2;
-    
-    let rootValue = parser.findNumberAfter(rootIndex, formula);
-    if (!rootValue) return 'NaN';
-
-    formula = parser.remove(symbols.root.length + rootValue.length, rootIndex, formula);
-    formula = parser.remove(rootStrength.length, rootIndex - rootStrength.length, formula);    
-
-    formula = parser.insert('Math.pow(' + rootValue + ',1/' + rootStrength + ')', rootIndex, formula);
     
   });
   
