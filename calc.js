@@ -428,7 +428,7 @@ calc.calculate = () => {
   
   const result = calc.parser.run(formula);
   
-  if (formula !== String(result)) {
+  if (calc.result.textContent !== String(result)) {
   
     calc.historyEl.textContent = calc.result.textContent;
     calc.history.unshift(calc.result.textContent);
