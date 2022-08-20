@@ -587,9 +587,9 @@ document.addEventListener('keydown', (e) => {
       e.preventDefault();
       result.textContent = '';
       
-    } else if (e.altKey) {
+    } else if (e.metaKey || e.ctrlKey) {
       
-      calc.el.classList.toggle('shift');
+      calc.el.classList.add('shift');
       
     } else if (e.key === '=' || e.key === 'Enter') {
       
@@ -606,6 +606,17 @@ document.addEventListener('keydown', (e) => {
     result.addText(symbols.pow[e.key]);
 
   }
+  
+});
+
+
+document.addEventListener('keyup', (e) => {
+  
+   if (calc.el.classList.contains('shift')) {
+
+     calc.el.classList.remove('shift');
+
+   }
   
 });
 
