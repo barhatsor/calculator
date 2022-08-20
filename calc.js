@@ -137,6 +137,14 @@ calc.parser.remove = (offset, index, str) => {
 calc.parser.findNumberBefore = (index, str) => {
   
   const parser = calc.parser;
+  
+  if (str[index - 1] === ')') {
+    
+    return parser.findBracketFormula((index - 1), str, 'backwards');
+    
+  }
+  
+  
   const allowedChars = parser.allowedChars();
   
   let number = '';
@@ -161,6 +169,14 @@ calc.parser.findNumberBefore = (index, str) => {
 calc.parser.findNumberAfter = (index, str) => {
   
   const parser = calc.parser;
+  
+  if (str[index + 1] === '(') {
+    
+    return parser.findBracketFormula((index + 1), str, 'forwards');
+    
+  }
+  
+  
   const allowedChars = parser.allowedChars();
   
   let number = '';
@@ -179,6 +195,47 @@ calc.parser.findNumberAfter = (index, str) => {
   if (number === '') return null;
   
   return number;
+  
+}
+
+
+calc.parser.findBracketFormula = (index, str, direction) => {
+  
+  const parser = calc.parser;
+  const allowedChars = parser.bracketAllowedChars();
+  
+  let formula = '';
+
+  if (direction == 'forwards') {
+
+    for (let i = index; i < str.length; i++) {
+  
+      const char = str[i];
+  
+      if (char === ')') break;
+  
+      formula += char;
+  
+    }
+    
+  } else {
+    
+    for (let i = index; i >= 0; i--) {
+  
+      const char = str[i];
+  
+      if (char === '(') break;
+  
+      formula += char;
+  
+    }
+    
+  }
+  
+  
+  if (formula === '') return null;
+  
+  return formula;
   
 }
 
@@ -221,6 +278,17 @@ calc.parser.allowedChars = () => {
   const symbols = calc.symbols;
   
   let allowedChars = [symbols.pi, symbols.percent, symbols.dot, symbols.e, symbols.factorial, symbols.comma];
+  
+  allowedChars = [...calc.numbers, ...calc.symbols.pow, ...allowedChars];
+  
+  return allowedChars;
+  
+}
+
+calc.parser.bracketAllowedChars = () => {
+  
+  let allowedChars = Object.values(calc.symbols);
+  allowedChars.pop();
   
   allowedChars = [...calc.numbers, ...calc.symbols.pow, ...allowedChars];
   
