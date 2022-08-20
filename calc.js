@@ -869,7 +869,7 @@ calc.historyEl.addEventListener('click', () => {
     if (calc.history[1]) calc.historyEl.textContent = calc.history[1];
     else calc.historyEl.textContent = '';
 
-    result.textContent = calc.history[0];
+    calc.result.textContent = calc.history[0];
     calc.result.moveSelToEnd();
 
     calc.history.shift();
