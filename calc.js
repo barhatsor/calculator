@@ -52,8 +52,8 @@ calc.parser.parse = (formula) => {
     let rootValue = parser.findNumberAfter(rootIndex, formula);
     if (!rootValue) return 'NaN';
 
-    formula = parser.remove(-rootStrength.length, rootIndex, formula);    
-    formula = parser.remove(symbols.root.length + rootValue.length, rootIndex, formula);
+    formula = parser.remove(-rootStrength.length - symbols.root.length, rootIndex, formula);    
+    formula = parser.remove(rootValue.length, rootIndex, formula);
     
     formula = parser.insert('Math.pow(' + rootValue + ',1/' + rootStrength + ')', rootIndex, formula);
     
