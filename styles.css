@@ -22,7 +22,8 @@
   z-index: 100;
 }
 
-.calc .header .number {
+.calc .header .number,
+.calc .header .history {
   display: flex;
   align-items: center;
   position: relative;
@@ -32,7 +33,6 @@
   max-width: calc(var(--calc-width) - 34.5px * 2);
   overflow-x: overlay;
   white-space: nowrap;
-  transition: .18s var(--ease-function);
   /* font-variant-numeric: tabular-nums; */
   font-weight: normal;
   font-size: 29px;
@@ -40,6 +40,7 @@
   user-select: text;
   -webkit-user-select: text;
   width: 100%;
+  top: 0;
   /* font-family: 'Mono Sans'; */
 }
 
@@ -47,6 +48,39 @@
   content: ' ';
   pointer-events: none;
   opacity: 0;
+}
+
+.calc .header .history {
+  position: absolute;
+  top: -9px;
+  font-size: 16px;
+  z-index: 1;
+  padding-bottom: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  white-space: pre;
+  opacity: .2;
+  display: none;
+}
+
+.calc.history .header .history {
+  display: flex;
+}
+
+.calc .header .history.transition {
+  font-size: 29px;
+  opacity: 1;
+  top: 14px;
+  transition: .18s var(--ease-function);
+}
+
+.calc .header .number.transition {
+  top: 16px;
+  font-size: 16px;
+  opacity: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: .18s var(--ease-function);
 }
 
 .calc .buttons {
@@ -82,16 +116,31 @@
 }
 
 .calc .buttons .button:active,
-.calc .buttons .button.active {
-  background: rgba(255,255,255,0.1);
+.calc .buttons .button.active,
+.calc.shift .buttons .shift {
+  background: rgba(255,255,255,0.1) !important;
 }
 
-.calc .buttons .button.active:active {
+.calc .buttons .button.active:active,
+.calc.shift .buttons .shift:active {
   background: rgba(255,255,255,0.05);
 }
 
 .calc .buttons .button.text {
   font-size: 18px;
+}
+
+.calc:not(.shift) .buttons .shift .active,
+.calc.shift .buttons .shift .inactive {
+  display: none;
+}
+
+.calc:not(.shift) .buttons .button.show-on-shift {
+  display: none;
+}
+
+.calc.shift .buttons .button.hide-on-shift {
+  display: none;
 }
 
 .calc .buttons .button svg path {
