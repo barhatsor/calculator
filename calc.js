@@ -839,6 +839,10 @@ document.addEventListener('keydown', (e) => {
       
       }
   
+    } else if (e.key === 'm') {
+      
+      calc.el.classList.toggle('history');
+        
     } else if (e.key === '=' || e.key === 'Enter') {
       
       e.preventDefault();
