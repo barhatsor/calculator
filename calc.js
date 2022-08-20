@@ -218,6 +218,8 @@ calc.parser.allowedChars = () => {
   //let allowedChars = Object.values(calc.symbols);
   //allowedChars.pop();
   
+  const symbols = calc.symbols;
+  
   let allowedChars = [symbols.pi, symbols.percent, symbols.dot, symbols.e, symbols.factorial, symbols.comma];
   
   allowedChars = [...calc.numbers, ...calc.symbols.pow, ...allowedChars];
