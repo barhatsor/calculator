@@ -54,7 +54,7 @@ calc.parser.parse = (formula) => {
     
     formula = parser.remove(symbols.root.length, rootIndex, formula);
     
-    formula = parser.insert('Math.pow(' + rootValue + ', 1/' + rootStrength + ')', rootIndex, formula);
+    formula = parser.insert('Math.pow(' + rootValue + ',1/' + rootStrength + ')', rootIndex, formula);
     
   });
   
