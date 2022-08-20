@@ -416,6 +416,7 @@ calc.calculate = () => {
   
   let formula = calc.result.textContent;
   
+  calc.historyEl.textContent = formula;
   calc.history.unshift(formula);
   
   formula = calc.parser.parse(formula);
@@ -619,6 +620,8 @@ calc.buttons.forEach(button => {
       } else if (button.name === 'history') {
         
         if (calc.history[0]) {
+          
+          if (calc.history[1]) historyEl.textContent = calc.history[1];
           
           result.textContent = calc.history[0];
           calc.result.moveSelToEnd();
