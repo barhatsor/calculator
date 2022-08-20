@@ -416,7 +416,15 @@ calc.calculate = () => {
   
   let formula = calc.result.textContent;
   
-  formula = calc.parser.parse(formula);
+  try {
+    
+    formula = calc.parser.parse(formula);
+    
+  } catch(e) {
+    
+    formula = 'NaN';
+    
+  }
   
   const result = calc.parser.run(formula);
   
