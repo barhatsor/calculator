@@ -153,8 +153,7 @@ calc.parser.findNumberBefore = (index, str) => {
 
     const char = str[i];
 
-    if (!allowedChars.includes(char) &&
-        !parser.wordBefore(i, str)) break;
+    if (!allowedChars.includes(char)) break;
 
     number = char + number;
 
@@ -185,8 +184,7 @@ calc.parser.findNumberAfter = (index, str) => {
 
     const char = str[i];
 
-    if (!allowedChars.includes(char) &&
-        !parser.wordBefore(i, str)) break;
+    if (!allowedChars.includes(char)) break;
 
     number += char;
 
@@ -254,23 +252,6 @@ calc.parser.findBracketFormula = (index, str, direction) => {
   if (formula === '') return null;
   
   return '(' + formula + ')';
-  
-}
-
-
-calc.parser.wordBefore = (index, str) => {
-  
-  const words = calc.words;
-  
-  let subStr = str.slice(index - 4, index - 1);
-  
-  if (words.includes(subStr)) return true;
-  
-  subStr = str.slice(index - 5, index - 1);
-  
-  if (words.includes(subStr)) return true;
-  
-  return false;
   
 }
 
