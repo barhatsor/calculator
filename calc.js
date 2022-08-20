@@ -49,37 +49,6 @@ calc.parser.parse = (formula) => {
   formula = formula.replaceAll(symbols.percent, '/100');
   formula = formula.replaceAll(symbols.pi, 'Math.PI');
   formula = formula.replaceAll(symbols.e, 'Math.E');
-
-
-  const root = parser.find(symbols.root, formula);
-  
-  formula = formula.replaceAll(symbols.root, '');
-  
-  root.forEach((item, arrayIndex) => {
-
-    root[arrayIndex] -= symbols.root.length;
-
-  });
-  
-  root.forEach(rootIndex => {
-    
-    let rootStrength = parser.findNumberBefore(rootIndex, formula);
-    if (!rootStrength) rootStrength = 2;
-    
-    let rootValue = parser.findNumberAfter(rootIndex, formula);
-    if (!rootValue) return 'NaN';
-    
-    formula = parser.insert(')', rootIndex + rootStrength.length, formula);
-    formula = parser.insert(',1/', rootIndex, formula);    
-    formula = parser.insert('Math.pow(', rootIndex - rootValue.length, formula);
-
-    root.forEach((item, arrayIndex) => {
-      
-      root[arrayIndex] += 'Math.pow(,1/)'.length;
-      
-    });
-    
-  });
   
   
   const pow = parser.findPow(formula);
@@ -101,6 +70,31 @@ calc.parser.parse = (formula) => {
   symbols.pow.forEach((symbol, index) => {
     
     formula = formula.replaceAll(symbol, index);
+    
+  });
+  
+  
+  const root = parser.find(symbols.root, formula);
+  
+  formula = formula.replaceAll(symbols.root, '');
+  
+  root.forEach(rootIndex => {
+    
+    let rootStrength = parser.findNumberBefore(rootIndex, formula);
+    if (!rootStrength) rootStrength = 2;
+    
+    let rootValue = parser.findNumberAfter(rootIndex - 1, formula);
+    if (!rootValue) return 'NaN';
+    
+    formula = parser.insert(')', rootIndex + rootStrength.length, formula);
+    formula = parser.insert(',', rootIndex, formula);    
+    formula = parser.insert('calc.parser.root(', rootIndex - rootValue.length, formula);
+
+    root.forEach((item, arrayIndex) => {
+      
+      root[arrayIndex] += 'calc.parser.root(,)'.length - 1;
+      
+    });
     
   });
   
@@ -357,6 +351,12 @@ calc.parser.findPowStrength = (str) => {
   
 }
 
+
+calc.parser.root = (strength, value) => {
+  
+  return Math.pow(value, 1/strength);
+  
+}
 
 calc.parser.factorial = (n) => {
   
