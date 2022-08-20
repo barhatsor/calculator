@@ -52,9 +52,9 @@ calc.parser.parse = (formula) => {
     let rootValue = parser.findNumberAfter(rootIndex, formula);
     if (!rootValue) return 'NaN';
 
-    formula = parser.remove(-rootStrength.length - symbols.root.length, rootIndex, formula);    
-    formula = parser.remove(rootValue.length, rootIndex, formula);
-    
+    formula = parser.remove(symbols.root.length + rootValue.length, rootIndex, formula);
+    formula = parser.remove(rootStrength.length, rootIndex - rootStrength.length, formula);    
+
     formula = parser.insert('Math.pow(' + rootValue + ',1/' + rootStrength + ')', rootIndex, formula);
     
   });
@@ -160,7 +160,8 @@ calc.parser.findNumberBefore = (index, str) => {
 
 calc.parser.findNumberAfter = (index, str) => {
   
-  const allowedChars = calc.parser.allowedChars();
+  const parser = calc.parser;
+  const allowedChars = parser.allowedChars();
   
   let number = '';
 
@@ -214,8 +215,10 @@ calc.parser.factorial = (n) => {
 
 calc.parser.allowedChars = () => {
   
-  let allowedChars = Object.values(calc.symbols);
-  allowedChars.pop();
+  //let allowedChars = Object.values(calc.symbols);
+  //allowedChars.pop();
+  
+  let allowedChars = [symbols.pi, symbols.percent, symbols.dot, symbols.e, symbols.factorial, symbols.comma];
   
   allowedChars = [...calc.numbers, ...calc.symbols.pow, ...allowedChars];
   
