@@ -422,8 +422,8 @@ calc.calculate = () => {
   
   if (formula !== String(result)) {
   
-    calc.historyEl.textContent = formula;
-    calc.history.unshift(formula);
+    calc.historyEl.textContent = calc.result.textContent;
+    calc.history.unshift(calc.result.textContent);
     
     calc.result.textContent = result;
     calc.result.moveSelToEnd();
