@@ -621,7 +621,8 @@ calc.buttons.forEach(button => {
         
         if (calc.history[0]) {
           
-          if (calc.history[1]) historyEl.textContent = calc.history[1];
+          if (calc.history[1]) calc.historyEl.textContent = calc.history[1];
+          else calc.historyEl.textContent = '';
           
           result.textContent = calc.history[0];
           calc.result.moveSelToEnd();
@@ -808,6 +809,26 @@ document.addEventListener('keydown', (e) => {
       e.preventDefault();
       result.textContent = '';
       
+    } else if (e.key === 'ArrowUp') {
+      
+      e.preventDefault();
+      
+      if (calc.history[0]) {
+    
+        if (calc.history[1]) calc.historyEl.textContent = calc.history[1];
+        else calc.historyEl.textContent = '';
+    
+        result.textContent = calc.history[0];
+        calc.result.moveSelToEnd();
+    
+        calc.history.shift();
+    
+      } else {
+    
+        result.textContent = '';
+    
+      }
+    
     } else if (e.key === '=' || e.key === 'Enter') {
       
       e.preventDefault();
