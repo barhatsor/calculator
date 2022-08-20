@@ -619,21 +619,7 @@ calc.buttons.forEach(button => {
         
       } else if (button.name === 'history') {
         
-        if (calc.history[0]) {
-          
-          if (calc.history[1]) calc.historyEl.textContent = calc.history[1];
-          else calc.historyEl.textContent = '';
-          
-          result.textContent = calc.history[0];
-          calc.result.moveSelToEnd();
-          
-          calc.history.shift();
-          
-        } else {
-          
-          result.textContent = '';
-          
-        }
+        calc.el.classList.toggle('history');
         
       } else if (button.name === 'equals') {
         
@@ -823,10 +809,6 @@ document.addEventListener('keydown', (e) => {
     
         calc.history.shift();
     
-      } else {
-    
-        result.textContent = '';
-    
       }
     
     } else if (e.key === '=' || e.key === 'Enter') {
@@ -876,6 +858,23 @@ document.addEventListener('paste', (e) => {
   text = text.replaceAll('=', '');
 
   calc.result.addText(text);
+
+});
+
+
+calc.historyEl.addEventListener('click', () => {
+
+  if (calc.history[0]) {
+
+    if (calc.history[1]) calc.historyEl.textContent = calc.history[1];
+    else calc.historyEl.textContent = '';
+
+    result.textContent = calc.history[0];
+    calc.result.moveSelToEnd();
+
+    calc.history.shift();
+
+  }
 
 });
 
