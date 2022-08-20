@@ -66,7 +66,7 @@ calc.parser.parse = (formula) => {
 
     formula = parser.insert('Math.pow(' + rootValue + ',1/' + rootStrength + ')', rootIndex, formula);
     
-    root.forEach(item, arrayIndex) => {
+    root.forEach((item, arrayIndex) => {
       
       root[arrayIndex] += 'Math.pow(,1/)'.length - 1;
       
@@ -83,7 +83,7 @@ calc.parser.parse = (formula) => {
     formula = parser.insert(',', powIndex, formula);    
     formula = parser.insert('Math.pow(', powIndex - powValue.length, formula);
     
-    pow.forEach(item, arrayIndex) => {
+    pow.forEach((item, arrayIndex) => {
       
       pow[arrayIndex][2] += 'Math.pow(,)'.length;
       
@@ -109,7 +109,7 @@ calc.parser.parse = (formula) => {
     formula = parser.insert(')', factorialIndex + value.length, formula);    
     formula = parser.insert('calc.parser.factorial(', factorialIndex, formula);
     
-    factorial.forEach(item, arrayIndex) => {
+    factorial.forEach((item, arrayIndex) => {
       
       factorial[arrayIndex] += 'calc.parser.factorial()'.length - 1;
       
