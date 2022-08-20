@@ -416,6 +416,8 @@ calc.calculate = () => {
   
   let formula = calc.result.textContent;
   
+  if (formula === '') return;
+  
   try {
     
     formula = calc.parser.parse(formula);
