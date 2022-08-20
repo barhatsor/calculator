@@ -44,6 +44,12 @@ calc.parser.parse = (formula) => {
   
   formula = formula.replaceAll(' ', '');
 
+  formula = formula.replaceAll(symbols.multiply, '*');
+  formula = formula.replaceAll(symbols.divide, '/');
+  formula = formula.replaceAll(symbols.percent, '/100');
+  formula = formula.replaceAll(symbols.pi, 'Math.PI');
+  formula = formula.replaceAll(symbols.e, 'Math.E');
+
 
   const root = parser.find(symbols.root, formula);
   
@@ -63,16 +69,33 @@ calc.parser.parse = (formula) => {
   });
   
   
+  const pow = parser.findPow(formula);
+  
+  pow.forEach([powStrength, powValue, powIndex] => {
+
+    formula = parser.insert(')', powIndex + powStrength.length, formula);
+    formula = parser.insert(',', powIndex, formula);    
+    formula = parser.insert('Math.pow(', powIndex - powValue.length, formula);
+        
+  });
+  
+  symbols.pow.forEach((symbol, index) => {
+    
+    formula = formula.replaceAll(symbol, index);
+    
+  });
+  
+  
   const factorial = parser.find(symbols.factorial, formula);
   
   factorial.forEach(factorialIndex => {
     
     let value = parser.findNumberAfter(factorialIndex, formula);
     
-    formula = parser.remove(symbols.factorial.length, factorialIndex - symbols.factorial.length, formula);
-    
+    formula = parser.remove(symbols.factorial.length, factorialIndex, formula);
+
+    formula = parser.insert(')', factorialIndex + value.length, formula);    
     formula = parser.insert('calc.parser.factorial(', factorialIndex, formula);
-    formula = parser.insert(')', factorialIndex + value.length, formula);
     
   });
   
@@ -98,22 +121,6 @@ calc.parser.parse = (formula) => {
     }
     
   });
-  
-
-  /*
-  symbols.pow.forEach((symbol, index) => {
-    
-    formula = formula.replaceAll(symbol, index + 'pow');
-    
-  });
-  */
-  
-  
-  formula = formula.replaceAll(symbols.multiply, '*');
-  formula = formula.replaceAll(symbols.divide, '/');
-  formula = formula.replaceAll(symbols.percent, '/100');
-  formula = formula.replaceAll(symbols.pi, 'Math.PI');
-  formula = formula.replaceAll(symbols.e, 'Math.E');
   
   
   console.log(formula);
@@ -269,6 +276,59 @@ calc.parser.findBracketFormula = (index, str, direction) => {
   if (formula === '') return null;
   
   return '(' + formula + ')';
+  
+}
+
+
+calc.parser.findPow = (str) => {
+  
+  const parser = calc.parser;
+  const pow = calc.symbols.pow;
+  
+  let matches = [];
+    
+  for (let i = 0; i < str.length; i++) {
+
+    const char = str[i];
+    
+    if (pow.includes(char)) {
+      
+      const strength = parser.findPowStrength(str.slice(i));
+      const value = parser.findNumberBefore(i, str);
+      
+      matches.push([strength, value, i]);
+      
+      i += strength.length;
+      
+    }
+
+  }
+  
+  return matches;
+
+}
+
+calc.parser.findPowStrength = (str) => {
+  
+  const pow = calc.symbols.pow;
+  
+  let strength = '';
+  
+  for (let i = 0; i < str.length; i++) {
+    
+    const char = str[i];
+    
+    if (!pow.includes(char)) {
+      
+      break;
+      
+    }
+    
+    strength += char;
+    
+  }
+  
+  return strength;
   
 }
 
