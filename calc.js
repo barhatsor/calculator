@@ -587,7 +587,7 @@ document.addEventListener('keydown', (e) => {
       e.preventDefault();
       result.textContent = '';
       
-    } else if (e.metaKey || e.ctrlKey) {
+    } else if (e.altKey) {
       
       calc.el.classList.add('shift');
       
