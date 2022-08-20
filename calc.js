@@ -164,7 +164,7 @@ calc.parser.findNumberAfter = (index, str) => {
   
   let number = '';
 
-  for (let i = index - 1; i < str.length; i++) {
+  for (let i = index + 1; i < str.length; i++) {
 
     const char = str[i];
 
