@@ -804,14 +804,24 @@ document.addEventListener('keydown', (e) => {
       e.preventDefault();
       
       if (calc.history[0]) {
-    
-        if (calc.history[1]) calc.historyEl.textContent = calc.history[1];
-        else calc.historyEl.textContent = '';
-    
-        result.textContent = calc.history[0];
-        calc.result.moveSelToEnd();
-    
-        calc.history.shift();
+        
+        calc.result.classList.add('transition');
+        calc.historyEl.classList.add('transition');
+        
+        window.setTimeout(() => {
+        
+          calc.result.classList.remove('transition');
+          calc.historyEl.classList.remove('transition');
+        
+          if (calc.history[1]) calc.historyEl.textContent = calc.history[1];
+          else calc.historyEl.textContent = '';
+      
+          result.textContent = calc.history[0];
+          calc.result.moveSelToEnd();
+      
+          calc.history.shift();
+          
+        }, 180);
     
       }
     
