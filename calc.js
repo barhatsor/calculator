@@ -839,7 +839,9 @@ document.addEventListener('keydown', (e) => {
       
       }
   
-    } else if (e.key === 'm') {
+    } else if (e.key === 'M') {
+      
+      e.preventDefault();
       
       calc.el.classList.toggle('history');
         
