@@ -26,6 +26,9 @@ let calc = {
   
   words: ['hyp', 'sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh', 'ln', 'log10', 'rand'],
   
+  history: {},
+  historyEl: document.querySelector('.calc .header .history'),
+  
   powMode: false
   
 };
@@ -56,6 +59,20 @@ calc.parser.parse = (formula) => {
     formula = parser.remove(rootStrength.length, rootIndex - rootStrength.length, formula);    
 
     formula = parser.insert('Math.pow(' + rootValue + ',1/' + rootStrength + ')', rootIndex, formula);
+    
+  });
+  
+  
+  const factorial = parser.find(symbols.factorial, formula);
+  
+  factorial.forEach(factorialIndex => {
+    
+    let value = parser.findNumberAfter(factorialIndex, formula);
+    
+    formula = parser.remove(symbols.factorial.length, factorialIndex - symbols.factorial.length, formula);
+    
+    formula = parser.insert('calc.parser.factorial(', factorialIndex, formula);
+    formula = parser.insert(')', factorialIndex + value.length, formula);
     
   });
   
