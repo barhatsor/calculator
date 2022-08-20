@@ -156,7 +156,7 @@ calc.parser.findNumberBefore = (index, str) => {
     if (!allowedChars.includes(char) &&
         !parser.wordBefore(i, str)) break;
 
-    number += char;
+    number = char + number;
 
   }
   
@@ -208,7 +208,7 @@ calc.parser.findBracketFormula = (index, str, direction) => {
 
   if (direction == 'forwards') {
 
-    for (let i = index; i < str.length; i++) {
+    for (let i = index + 1; i < str.length; i++) {
   
       const char = str[i];
   
@@ -220,13 +220,13 @@ calc.parser.findBracketFormula = (index, str, direction) => {
     
   } else {
     
-    for (let i = index; i >= 0; i--) {
+    for (let i = index - 1; i >= 0; i--) {
   
       const char = str[i];
   
       if (char === '(') break;
   
-      formula += char;
+      formula = char + formula;
   
     }
     
@@ -235,7 +235,7 @@ calc.parser.findBracketFormula = (index, str, direction) => {
   
   if (formula === '') return null;
   
-  return formula;
+  return '(' + formula + ')';
   
 }
 
@@ -404,6 +404,10 @@ calc.buttons.forEach(button => {
           
           result.removeText(-2);
           
+        } else if (result.beforeSel(8) === 'Infinity') {
+          
+          result.removeText(-7);
+          
         } else if (result.beforeSel(2) === 'ln') {
           
           result.removeText(-1);
@@ -562,6 +566,10 @@ document.addEventListener('keydown', (e) => {
         
         result.removeText(-2);
         
+      } else if (result.beforeSel(8) === 'Infinity') {
+          
+        result.removeText(-7);
+          
       } else if (result.beforeSel(2) === 'ln') {
           
         result.removeText(-1);
