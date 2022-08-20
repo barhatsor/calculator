@@ -51,17 +51,37 @@ calc.parser.parse = (formula) => {
   formula = formula.replaceAll(symbols.e, 'Math.E');
   
   
+  const factorial = parser.find(symbols.factorial, formula);
+  
+  factorial.forEach(factorialIndex => {
+    
+    let value = parser.findNumberAfter(factorialIndex, formula);
+    
+    formula = parser.remove(symbols.factorial.length, factorialIndex, formula);
+
+    formula = parser.insert('))', factorialIndex + value.length, formula);    
+    formula = parser.insert('(calc.parser.factorial(', factorialIndex, formula);
+    
+    factorial.forEach((item, arrayIndex) => {
+      
+      factorial[arrayIndex] += '(calc.parser.factorial())'.length - 1;
+      
+    });
+    
+  });
+  
+  
   const pow = parser.findPow(formula);
   
   pow.forEach(([powStrength, powValue, powIndex]) => {
 
-    formula = parser.insert(')', powIndex + powStrength.length, formula);
+    formula = parser.insert('))', powIndex + powStrength.length, formula);
     formula = parser.insert(',', powIndex, formula);    
-    formula = parser.insert('Math.pow(', powIndex - powValue.length, formula);
+    formula = parser.insert('(Math.pow(', powIndex - powValue.length, formula);
     
     pow.forEach((item, arrayIndex) => {
       
-      pow[arrayIndex][2] += 'Math.pow(,)'.length;
+      pow[arrayIndex][2] += '(Math.pow(,))'.length;
       
     });
     
@@ -78,8 +98,6 @@ calc.parser.parse = (formula) => {
   
   formula = formula.replaceAll(symbols.root, '');
   
-  root[0] -= 1;
-  
   root.forEach(rootIndex => {
     
     let rootStrength = parser.findNumberBefore(rootIndex, formula);
@@ -88,33 +106,13 @@ calc.parser.parse = (formula) => {
     let rootValue = parser.findNumberAfter(rootIndex - 1, formula);
     if (!rootValue) return 'NaN';
     
-    formula = parser.insert(')', rootIndex + rootStrength.length, formula);
+    formula = parser.insert(')', rootIndex + rootValue.length, formula);
     formula = parser.insert(',', rootIndex, formula);    
-    formula = parser.insert('calc.parser.root(', rootIndex - rootValue.length, formula);
+    formula = parser.insert('calc.parser.root(', rootIndex - rootStrength.length, formula);
 
     root.forEach((item, arrayIndex) => {
       
       root[arrayIndex] += 'calc.parser.root(,)'.length - 1;
-      
-    });
-    
-  });
-  
-  
-  const factorial = parser.find(symbols.factorial, formula);
-  
-  factorial.forEach(factorialIndex => {
-    
-    let value = parser.findNumberAfter(factorialIndex, formula);
-    
-    formula = parser.remove(symbols.factorial.length, factorialIndex, formula);
-
-    formula = parser.insert(')', factorialIndex + value.length, formula);    
-    formula = parser.insert('calc.parser.factorial(', factorialIndex, formula);
-    
-    factorial.forEach((item, arrayIndex) => {
-      
-      factorial[arrayIndex] += 'calc.parser.factorial()'.length - 1;
       
     });
     
