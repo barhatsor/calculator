@@ -611,13 +611,13 @@ document.addEventListener('keydown', (e) => {
 
 
 document.addEventListener('keyup', (e) => {
-  
-   if (calc.el.classList.contains('shift')) {
+  console.log(e);
+  if (e.key === 'AltKey' && calc.el.classList.contains('shift')) {
 
-     calc.el.classList.remove('shift');
+    calc.el.classList.remove('shift');
 
-   }
-  
+  }
+
 });
 
 
