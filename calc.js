@@ -71,7 +71,7 @@ calc.parser.parse = (formula) => {
   
   const pow = parser.findPow(formula);
   
-  pow.forEach([powStrength, powValue, powIndex] => {
+  pow.forEach(([powStrength, powValue, powIndex]) => {
 
     formula = parser.insert(')', powIndex + powStrength.length, formula);
     formula = parser.insert(',', powIndex, formula);    
