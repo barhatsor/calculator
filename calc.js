@@ -230,6 +230,7 @@ calc.parser.run = (formula) => {
   try {
     
     result = eval(formula);
+    result = Number(result);
     
   } catch(e) {}
   
