@@ -42,6 +42,29 @@ calc.parser.parse = (formula) => {
   formula = formula.replaceAll(' ', '');
 
 
+  words.forEach(word => {
+    
+    if (word === 'hyp') {
+      
+      formula = formula.replaceAll(word + '(', 'Math.hypot(');
+      
+    } else if (word === 'ln') {
+      
+      formula = formula.replaceAll(word + '(', 'Math.log(');
+      
+    } else if (word === 'rand') {
+      
+      formula = formula.replaceAll(word + '(', 'Math.random(');
+      
+    } else {
+    
+      formula = formula.replaceAll(word + '(', 'Math.' + word + '(');
+      
+    }
+    
+  });
+
+
   const root = parser.find(symbols.root, formula);
   
   root.forEach(rootIndex => {
@@ -67,29 +90,6 @@ calc.parser.parse = (formula) => {
     
   });
   */
-  
-  
-  words.forEach(word => {
-    
-    if (word === 'hyp') {
-      
-      formula = formula.replaceAll(word + '(', 'Math.hypot(');
-      
-    } else if (word === 'ln') {
-      
-      formula = formula.replaceAll(word + '(', 'Math.log(');
-      
-    } else if (word === 'rand') {
-      
-      formula = formula.replaceAll(word + '(', 'Math.random(');
-      
-    } else {
-    
-      formula = formula.replaceAll(word + '(', 'Math.' + word + '(');
-      
-    }
-    
-  });
   
   
   formula = formula.replaceAll(symbols.multiply, '*');
@@ -205,6 +205,8 @@ calc.parser.findBracketFormula = (index, str, direction) => {
   const allowedChars = parser.bracketAllowedChars();
   
   let formula = '';
+  
+  let bracketCounter = 1;
 
   if (direction == 'forwards') {
 
@@ -212,7 +214,15 @@ calc.parser.findBracketFormula = (index, str, direction) => {
   
       const char = str[i];
   
-      if (char === ')') break;
+      if (char === '(') bracketCounter++;
+      
+      if (char === ')') {
+        
+        bracketCounter--;
+        
+        if (bracketCounter === 0) break;
+        
+      }
   
       formula += char;
   
@@ -224,7 +234,15 @@ calc.parser.findBracketFormula = (index, str, direction) => {
   
       const char = str[i];
   
-      if (char === '(') break;
+      if (char === ')') bracketCounter++;
+      
+      if (char === '(') {
+        
+        bracketCounter--;
+        
+        if (bracketCounter === 0) break;
+        
+      }
   
       formula = char + formula;
   
@@ -763,6 +781,9 @@ calc.result.setSel = (startPos, endPos = startPos) => {
   const selection = window.getSelection();
   const resultNode = calc.result.childNodes[0];
   
+  if (startPos > resultNode.length) startPos = resultNode.length;
+  if (endPos > resultNode.length) endPos = resultNode.length;
+
   selection.setBaseAndExtent(resultNode, startPos, resultNode, endPos);
 
 }
