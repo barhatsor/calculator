@@ -416,15 +416,19 @@ calc.calculate = () => {
   
   let formula = calc.result.textContent;
   
-  calc.historyEl.textContent = formula;
-  calc.history.unshift(formula);
-  
   formula = calc.parser.parse(formula);
   
   const result = calc.parser.run(formula);
   
-  calc.result.textContent = result;
-  calc.result.moveSelToEnd();
+  if (formula !== result) {
+  
+    calc.historyEl.textContent = formula;
+    calc.history.unshift(formula);
+    
+    calc.result.textContent = result;
+    calc.result.moveSelToEnd();
+    
+  }
   
 }
 
