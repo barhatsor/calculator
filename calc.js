@@ -78,6 +78,8 @@ calc.parser.parse = (formula) => {
   
   formula = formula.replaceAll(symbols.root, '');
   
+  root[0] -= 1;
+  
   root.forEach(rootIndex => {
     
     let rootStrength = parser.findNumberBefore(rootIndex, formula);
