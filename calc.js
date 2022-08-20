@@ -309,7 +309,7 @@ calc.buttons.forEach(button => {
       } else if (button.name === 'backspace') {
         
         if (result.beforeSel(1) === '(' &&
-          result.afterSel(1) === ')') {
+            result.afterSel(1) === ')') {
           
           result.moveSel(1);
           result.removeText(-1);
@@ -320,6 +320,10 @@ calc.buttons.forEach(button => {
         if (result.beforeSel(3) === 'NaN') {
           
           result.removeText(-2);
+          
+        } else if (result.beforeSel(2) === 'ln') {
+          
+          result.removeText(-1);
           
         } else {
           
@@ -459,6 +463,10 @@ document.addEventListener('keydown', (e) => {
         
         result.removeText(-2);
         
+      } else if (result.beforeSel(2) === 'ln') {
+          
+        result.removeText(-1);
+          
       } else {
         
         let wordBefore = result.beforeSel(3);
