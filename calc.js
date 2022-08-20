@@ -271,7 +271,7 @@ calc.buttons.forEach(button => {
   } else {
     
     button.type = 'function';
-    button.name = button.classList.value.replace('button', '').replaceAll(' ','');
+    button.name = button.classList.value.replace('button', '').replace('hide-on-shift', '').replace('show-on-shift', '').replaceAll(' ','');
     
   }
   
@@ -283,6 +283,14 @@ calc.buttons.forEach(button => {
     const words = calc.words;
     
     result.focus();
+    
+    
+    if (button.classList.contains('show-on-shift')) {
+      
+      calc.el.classList.remove('shift');
+      
+    }
+    
     
     if (button.type === 'literal') {
       
@@ -450,6 +458,18 @@ document.addEventListener('keydown', (e) => {
   
   if (!result.focused()) result.focus();
   
+  
+  if (e.key !== 'Alt') {
+    
+    calc.el.classList.remove('shift');
+    
+  } else {
+    
+    calc.el.classList.add('shift');
+    
+  }
+  
+  
   if (!calc.powMode || !symbols.pow[e.key]) {
     
     if (e.key === 'Backspace' &&
@@ -586,10 +606,6 @@ document.addEventListener('keydown', (e) => {
       
       e.preventDefault();
       result.textContent = '';
-      
-    } else if (e.key === 'Alt') {
-      
-      calc.el.classList.add('shift');
       
     } else if (e.key === '=' || e.key === 'Enter') {
       
