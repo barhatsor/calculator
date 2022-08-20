@@ -26,7 +26,7 @@ let calc = {
   
   words: ['hyp', 'sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh', 'ln', 'log10', 'rand'],
   
-  history: {},
+  history: [],
   historyEl: document.querySelector('.calc .header .history'),
   
   powMode: false
@@ -143,6 +143,7 @@ calc.parser.parse = (formula) => {
   
   
   console.log(formula);
+  
   return formula;
 
 }
@@ -415,6 +416,8 @@ calc.calculate = () => {
   
   let formula = calc.result.textContent;
   
+  calc.history.unshift(formula);
+  
   formula = calc.parser.parse(formula);
   
   const result = calc.parser.run(formula);
@@ -612,6 +615,21 @@ calc.buttons.forEach(button => {
       } else if (button.name === 'shift') {
          
         calc.el.classList.toggle('shift');
+        
+      } else if (button.name === 'history') {
+        
+        if (calc.history[0]) {
+          
+          result.textContent = calc.history[0];
+          calc.result.moveSelToEnd();
+          
+          calc.history.shift();
+          
+        } else {
+          
+          result.textContent = '';
+          
+        }
         
       } else if (button.name === 'equals') {
         
