@@ -587,7 +587,7 @@ document.addEventListener('keydown', (e) => {
       e.preventDefault();
       result.textContent = '';
       
-    } else if (e.altKey) {
+    } else if (e.key === 'Alt') {
       
       calc.el.classList.add('shift');
       
@@ -611,8 +611,8 @@ document.addEventListener('keydown', (e) => {
 
 
 document.addEventListener('keyup', (e) => {
-  console.log(e);
-  if (e.key === 'AltKey' && calc.el.classList.contains('shift')) {
+
+  if (e.key === 'Alt') {
 
     calc.el.classList.remove('shift');
 
