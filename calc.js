@@ -73,19 +73,19 @@ calc.parser.parse = (formula) => {
     
     if (word === 'hyp') {
       
-      formula = formula.replaceAll(word + '(', 'Math.hypot');
+      formula = formula.replaceAll(word + '(', 'Math.hypot(');
       
     } else if (word === 'ln') {
       
-      formula = formula.replaceAll(word + '(', 'Math.log');
+      formula = formula.replaceAll(word + '(', 'Math.log(');
       
     } else if (word === 'rand') {
       
-      formula = formula.replaceAll(word + '(', 'Math.random');
+      formula = formula.replaceAll(word + '(', 'Math.random(');
       
     } else {
     
-      formula = formula.replaceAll(word + '(', 'Math.' + word);
+      formula = formula.replaceAll(word + '(', 'Math.' + word + '(');
       
     }
     
