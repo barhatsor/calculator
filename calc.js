@@ -416,7 +416,7 @@ calc.calculate = () => {
   
   let formula = calc.result.textContent;
   
-  if (formula === '') return;
+  if (formula === '' || formula === ' ') return;
   
   try {
     
