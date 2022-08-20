@@ -141,12 +141,12 @@ calc.parser.findNumberBefore = (index, str) => {
   
   let number = '';
   
-  for (let i = index; i >= 0; i--) {
+  for (let i = index - 1; i >= 0; i--) {
 
     const char = str[i];
 
     if (!allowedChars.includes(char) &&
-        !parser.wordBefore(index, str)) break;
+        !parser.wordBefore(i, str)) break;
 
     number += char;
 
@@ -164,12 +164,12 @@ calc.parser.findNumberAfter = (index, str) => {
   
   let number = '';
 
-  for (let i = index; i < str.length; i++) {
+  for (let i = index - 1; i < str.length; i++) {
 
     const char = str[i];
 
     if (!allowedChars.includes(char) &&
-        !parser.wordBefore(index, str)) break;
+        !parser.wordBefore(i, str)) break;
 
     number += char;
 
