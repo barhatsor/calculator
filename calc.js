@@ -19,11 +19,12 @@ let calc = {
     pi: 'π',
     e: 'e',
     root: '√',
+    comma: ',',
     factorial: '!',
     pow: ['⁰','¹','²','³','⁴','⁵','⁶','⁷','⁸','⁹']
   },
   
-  words: ['hyp', 'sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh'],
+  words: ['hyp', 'sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh', 'ln', 'log10', 'rand'],
   
   powMode: false
   
@@ -72,6 +73,14 @@ calc.parser.parse = (formula) => {
     if (word === 'hyp') {
       
       formula = formula.replaceAll(word, 'Math.hypot');
+      
+    } else if (word === 'ln') {
+      
+      formula = formula.replaceAll(word, 'Math.log');
+      
+    } else if (word === 'rand') {
+      
+      formula = formula.replaceAll(word, 'Math.random');
       
     } else {
     
@@ -399,9 +408,17 @@ calc.buttons.forEach(button => {
          
         result.addText(symbols.e);
         
+      } else if (button.name === 'comma') {
+         
+        result.addText(symbols.comma);
+        
       } else if (button.name === 'factorial') {
          
         result.addText(symbols.factorial);
+        
+      } else if (button.name === 'shift') {
+         
+        calc.el.classList.toggle('shift');
         
       } else if (button.name === 'equals') {
         
@@ -552,6 +569,10 @@ document.addEventListener('keydown', (e) => {
       
       e.preventDefault();
       result.textContent = '';
+      
+    } else if (e.altKey) {
+      
+      calc.el.classList.toggle('shift');
       
     } else if (e.key === '=' || e.key === 'Enter') {
       
