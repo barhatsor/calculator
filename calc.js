@@ -53,6 +53,14 @@ calc.parser.parse = (formula) => {
 
   const root = parser.find(symbols.root, formula);
   
+  formula = formula.replaceAll(symbols.root, '');
+  
+  root.forEach((item, arrayIndex) => {
+
+    root[arrayIndex] -= symbols.root.length;
+
+  });
+  
   root.forEach(rootIndex => {
     
     let rootStrength = parser.findNumberBefore(rootIndex, formula);
@@ -60,15 +68,14 @@ calc.parser.parse = (formula) => {
     
     let rootValue = parser.findNumberAfter(rootIndex, formula);
     if (!rootValue) return 'NaN';
-
-    formula = parser.remove(symbols.root.length + rootValue.length, rootIndex, formula);
-    formula = parser.remove(rootStrength.length, rootIndex - rootStrength.length, formula);    
-
-    formula = parser.insert('Math.pow(' + rootValue + ',1/' + rootStrength + ')', rootIndex, formula);
     
+    formula = parser.insert(')', rootIndex + rootStrength.length, formula);
+    formula = parser.insert(',1/', rootIndex, formula);    
+    formula = parser.insert('Math.pow(', rootIndex - rootValue.length, formula);
+
     root.forEach((item, arrayIndex) => {
       
-      root[arrayIndex] += 'Math.pow(,1/)'.length - 1;
+      root[arrayIndex] += 'Math.pow(,1/)'.length;
       
     });
     
