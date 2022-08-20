@@ -38,6 +38,7 @@
   font-size: 29px;
   outline: none;
   user-select: text;
+  -webkit-user-select: text;
   width: 100%;
   /* font-family: 'Mono Sans'; */
 }
