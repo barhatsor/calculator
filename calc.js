@@ -325,6 +325,10 @@ calc.buttons.forEach(button => {
           
           result.removeText(-1);
           
+        } else if (result.beforeSel(5) === 'log10') {
+          
+          result.removeText(-4);
+          
         } else {
           
           let wordBefore = result.beforeSel(3);
@@ -466,6 +470,10 @@ document.addEventListener('keydown', (e) => {
       } else if (result.beforeSel(2) === 'ln') {
           
         result.removeText(-1);
+          
+      } else if (result.beforeSel(5) === 'log10') {
+          
+        result.removeText(-4);
           
       } else {
         
