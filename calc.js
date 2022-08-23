@@ -777,6 +777,13 @@ document.addEventListener('keydown', (e) => {
       calc.powMode = !calc.powMode;
       calc.el.querySelector('.button.pow').classList.toggle('active');
       
+    } else if (e.key === '^') {
+      
+      e.preventDefault();
+      
+      calc.powMode = !calc.powMode;
+      calc.el.querySelector('.button.pow').classList.toggle('active');
+      
     } else if (result.beforeSel(1) === 'p' && e.key === 'w') {
       
       e.preventDefault();
