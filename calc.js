@@ -443,6 +443,15 @@ calc.calculate = () => {
 }
 
 
+let isMobile = false;
+
+if (navigator.userAgentData
+    && navigator.userAgentData.mobile) isMobile = true;
+
+if (navigator.userAgent
+    && navigator.userAgent.includes('Mobile')) isMobile = true;
+
+
 
 calc.buttons = calc.el.querySelectorAll('.button');
 
@@ -472,7 +481,7 @@ calc.buttons.forEach(button => {
     const symbols = calc.symbols;
     const words = calc.words;
     
-    result.focus();
+    if (isMobile) result.focus();
     
     
     if (button.classList.contains('show-on-shift')) {
