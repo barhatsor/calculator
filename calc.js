@@ -451,6 +451,7 @@ if (navigator.userAgentData
 if (navigator.userAgent
     && navigator.userAgent.includes('Mobile')) isMobile = true;
 
+if (isMobile) document.body.classList.add('mobile');
 
 
 calc.buttons = calc.el.querySelectorAll('.button');
