@@ -481,7 +481,7 @@ calc.buttons.forEach(button => {
     const symbols = calc.symbols;
     const words = calc.words;
     
-    if (isMobile) result.focus();
+    if (!isMobile) result.focus();
     
     
     if (button.classList.contains('show-on-shift')) {
